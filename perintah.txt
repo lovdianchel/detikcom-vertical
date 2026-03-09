@@ -1,0 +1,48 @@
+Brief Design Vertical Experience
+
+Revisi
+Jangan buat pembagian hangat, relevan, dekat dalam page yang berbeda, tetapi buat itu jadi jenis kontennya saja.
+Perlu interaction button yang sama untuk semua konten (seperti IG/Tiktok): Like, Komen, Share, Bookmark
+Desainnya bisakah Anda ubah warna merah jadi biru detikcom? Lalu buat lebih minimalis.
+
+Jenis Konten
+Breaking News: Strong image yang relevan, single image untuk breaking. Kartu berita darurat dengan foto kuat + headline singkat + summary 2 kalimat. Muncul otomatis saat ada keyword breaking yang publish < 6 jam. Ada badge merah "BREAKING" yang berkedip.
+
+
+Video: Video mirip reels at it is.
+
+Quote Highlights: Tokoh, gambar tokoh (bisa sebagai background), quote, konteks (tokoh ini berbicara dalam konteks apa dan untuk apa), tanggal informasi penting lainnya.
+Konten: "Netanyahu Bersumpah Lanjutkan Perang Lawan Iran, Klaim demi Bebas dari Tirani" selengkapnya 
+Isi quotes: "Kita terus maju dengan kekuatan penuh! Perang dimenangkan dengan inisiatif dan strategi, tetapi fondasi pertama kesuksesan adalah tekad," kata Netanyahu dikutip dari detikNews.
+https://www.detik.com/jogja/berita/d-8391041/netanyahu-bersumpah-lanjutkan-perang-lawan-iran-klaim-demi-bebas-dari-tirani.
+
+
+
+Carousel/Context: Explainer 5–7 slide untuk isu yang butuh penjelasan runtut: hook → latar belakang → penyebab → kronologi → dampak → ringkasan. Setiap slide maks 40 kata. Dipakai saat context lebih dominan dari momentum.
+
+Live Report: Kartu dengan slide horizontal internal yang bisa diswipe — setiap slide adalah satu update kejadian dengan timestamp. Cocok untuk peristiwa yang berkembang bertahap. Slide terakhir selalu berisi situasi terkini + CTA ke artikel lengkap.
+
+Story Mode: Format paling personal dan conversational — seperti "diceritain sesuatu." Diawali dengan hook yang menyebut siapa terdampak secara spesifik, lalu konteks, kondisi terkini, dan timeline. Sengaja tidak pakai banyak bullet, tone-nya ringan tapi tetap faktual.
+
+Carousel/How To: Panduan langkah-langkah dalam 3 frame: hook personal ("Supaya tidak kena denda...") → langkah konkret → CTA ringan. Sumber dari artikel lifestyle atau artikel yang punya checklist. Maks 2 bullet per frame agar tidak overwhelm.
+
+Polling: Pertanyaan dari fitur detikPolling (tambahan artikel terkait)
+
+Enjoyment: Konten ringan — pop culture, human interest, visual unik, atau achievement inspiratif. Bisa tampil sebagai single image + caption atau kartu swipe sederhana. Headline-nya sengaja tidak hiperbolik, tone-nya santai, maks 60 kata.
+
+Note: harus ada elemen untuk menjaga trust pengguna (jika di artikel biasanya ada author dan informasi lain seperti tanggal, dll. Namun, dalam konteks ini bisa berupa: author juga atau link ke sumber artikel terkait yang dipakai untuk reformat konten).
+
+
+
+Versi detikcom:
+Foto: https://news.detik.com/foto-news/d-8386051/pembangunan-fasilitas-pengolahan-sampah-jadi-energi-listrik-di-burangkeng-molor
+Pembangunan Fasilitas Pengolahan Sampah Jadi Energi Listrik di Burangkeng Molor
+Rifkianto Nugroho - detikNews
+Jumat, 06 Mar 2026 07:01 WIB
+Kabupaten Bekasi - Pembangunan PSEL di Kabupaten Bekasi terancam molor karena masih menunggu proses lelang, di tengah lonjakan sampah saat Ramadan.
+PreviousNext
+Foto aerial TPA Burangkeng di Kabupaten Bekasi, Jawa Barat, kemarin.
+Rencana pembangunan fasilitas Pengolahan Sampah menjadi Energi Listrik (PSEL) di Kabupaten Bekasi diperkirakan mengalami keterlambatan dari jadwal semula. Proyek yang direncanakan berdiri di kawasan Tempat Pembuangan Akhir (TPA) Burangkeng, Kecamatan Setu, itu awalnya ditargetkan mulai berjalan pada Maret 2026.
+Namun hingga kini proses pembangunan belum dapat dimulai karena masih menunggu tahapan administrasi di tingkat pusat. Proyek tersebut masih berada pada tahap pengusulan proses lelang sehingga pembangunan fisik belum bisa dilakukan dalam waktu dekat. 
+Fasilitas PSEL dirancang sebagai solusi jangka panjang untuk mengatasi persoalan sampah di wilayah Bekasi. Teknologi ini memungkinkan sampah diolah menjadi sumber energi listrik sehingga tidak hanya mengurangi timbunan sampah, tetapi juga menghasilkan energi yang bermanfaat bagi masyarakat. 
+Baca artikel detiknews, "Pembangunan Fasilitas Pengolahan Sampah Jadi Energi Listrik di Burangkeng Molor" selengkapnya https://news.detik.com/foto-news/d-8386051/pembangunan-fasilitas-pengolahan-sampah-jadi-energi-listrik-di-burangkeng-molor.

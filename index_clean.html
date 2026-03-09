@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="detikKilat — Berita Cepat Format Vertikal dari detikcom">
+    <title>detikKilat ⚡ — detikcom</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --red: #E8192C;
+            --navy: #003366;
+            --white: #fff;
+            --bg: #F5F5F5;
+            --text: #1A1A1A;
+            --text2: #757575;
+            --feed-bg: #000;
+            --nav-h: 56px;
+            --top-h: 96px;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #000
+        }
+
+        /* ── TOP BAR ── */
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #fff;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .tb-row1 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px 6px;
+        }
+
+        .tb-back {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #1A1A1A;
+            padding: 4px;
+        }
+
+        .tb-logo {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1
+        }
+
+        .tb-logo span.d {
+            color: #E8192C
+        }
+
+        .tb-logo span.k {
+            color: #1A1A1A
+        }
+
+        .tb-logo .bolt {
+            color: #E8192C;
+            font-size: 16px
+        }
+
+        .tb-tabs {
+            display: flex;
+            padding: 0 14px;
+            gap: 0;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 4px;
+            font-size: 13px;
+            color: #757575;
+            position: relative;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: #E8192C;
+            font-weight: 600
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #E8192C;
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* ── FEED ── */
+        #feed {
+            position: fixed;
+            top: var(--top-h);
+            left: 0;
+            right: 0;
+            bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #feed::-webkit-scrollbar {
+            display: none
+        }
+
+        .card {
+            width: 100%;
+            height: 100dvh;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* ── BOTTOM NAV ── */
+        #bottomnav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #fff;
+            border-top: 1px solid #E0E0E0;
+            height: calc(var(--nav-h) + env(safe-area-inset-bottom));
+            padding-bottom: env(safe-area-inset-bottom);
+            display: flex;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 10px;
+            color: #9E9E9E;
+            font-family: inherit;
+            padding: 6px 0;
+        }
+
+        .nav-item .nav-icon {
+            font-size: 22px;
+            line-height: 1
+        }
+
+        .nav-item.active {
+            color: #E8192C
+        }
+
+        .nav-item.active .nav-badge {
+            width: 6px;
+            height: 6px;
+            background: #E8192C;
+            border-radius: 50%;
+            margin-top: -4px;
+        }
+
+        /* ── GRADIENT OVERLAY ── */
+        .grad-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 55%;
+            background: linear-gradient(to top, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .6) 50%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .grad-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, .6) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* ── CARD OVERLAY UI ── */
+        .card-meta {
+            position: absolute;
+            bottom: 44px;
+            left: 14px;
+            right: 60px;
+            z-index: 10;
+        }
+
+        .pillar-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #E8192C;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-bottom: 6px;
+        }
+
+        .card-category {
+            color: rgba(255, 255, 255, .85);
+            font-size: 12px;
+            margin-bottom: 4px
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden
+        }
+
+        .card-time {
+            color: rgba(255, 255, 255, .6);
+            font-size: 12px;
+            margin-top: 4px
+        }
+
+        .card-actions {
+            position: absolute;
+            bottom: 52px;
+            right: 12px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: rgba(0, 0, 0, .4);
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #fff;
+            backdrop-filter: blur(4px);
+        }
+
+        .speaker-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 20;
+        }
+
+        /* ── PROGRESS BAR ── */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, .2);
+            z-index: 15;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #E8192C;
+            width: 35%;
+            border-radius: 0 2px 2px 0
+        }
+
+        /* ══ CARD TYPE: video_vertical ══ */
+        .card-vv .video-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+        }
+
+        .img-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .play-center {
+            position: relative;
+            z-index: 5;
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, .2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #fff;
+            backdrop-filter: blur(6px);
+            border: 2px solid rgba(255, 255, 255, .4);
+        }
+
+        /* ══ CARD TYPE: video_horizontal ══ */
+        .card-vh {
+            background: #000
+        }
+
+        .vh-video-wrap {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-60%);
+        }
+
+        .vh-video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+
+        .vh-fullscreen {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, .5);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .vh-info {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            padding: 0 14px;
+        }
+
+        /* ══ CARD TYPE: article ══ */
+        .card-article {
+            background: #fff
+        }
+
+        .article-thumb {
+            height: 58%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-thumb-label {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(0, 0, 0, .55);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .article-body {
+            height: 42%;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: #fff;
+        }
+
+        .article-cat {
+            color: #E8192C;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase
+        }
+
+        .article-title {
+            color: #1A1A1A;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden
+        }
+
+        .article-lede {
+            color: #757575;
+            font-size: 13px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1
+        }
+
+        .article-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .article-time {
+            color: #9E9E9E;
+            font-size: 12px
+        }
+
+        .baca-btn {
+            border: 1.5px solid #E8192C;
+            color: #E8192C;
+            background: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        /* ══ CARD TYPE: millisecond ══ */
+        .card-ms {
+            background: #001A33;
+            position: relative;
+            overflow: hidden
+        }
+
+        .ms-texture {
+            position: absolute;
+            inset: 0;
+            opacity: .07;
+            background: repeating-linear-gradient(-45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+            background-size: 20px 20px;
+        }
+
+        .ms-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px 20px 80px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .ms-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .ms-logo-text {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff
+        }
+
+        .ms-logo-text em {
+            color: #E8192C;
+            font-style: normal
+        }
+
+        .ms-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #E8192C;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: .5px;
+            align-self: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .ms-headline {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 16px
+        }
+
+        .ms-bullets {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1
+        }
+
+        .ms-bullet {
+            display: flex;
+            gap: 10px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.5
+        }
+
+        .ms-dash {
+            color: #E8192C;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .ms-audio {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, .06);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .audio-play {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #E8192C;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .audio-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+            height: 32px
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: #E8192C;
+            border-radius: 2px;
+            animation: wave 0.8s ease-in-out infinite alternate;
+        }
+
+        .wave-bar:nth-child(1) {
+            height: 8px;
+            animation-delay: 0s
+        }
+
+        .wave-bar:nth-child(2) {
+            height: 20px;
+            animation-delay: .1s
+        }
+
+        .wave-bar:nth-child(3) {
+            height: 28px;
+            animation-delay: .2s
+        }
+
+        .wave-bar:nth-child(4) {
+            height: 16px;
+            animation-delay: .3s
+        }
+
+        .wave-bar:nth-child(5) {
+            height: 10px;
+            animation-delay: .4s
+        }
+
+        @keyframes wave {
+            from {
+                transform: scaleY(.3)
+            }
+
+            to {
+                transform: scaleY(1)
+            }
+        }
+
+        .audio-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .audio-dur {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600
+        }
+
+        .audio-label {
+            color: #9E9E9E;
+            font-size: 11px;
+            font-style: italic
+        }
+
+        /* ══ CARD TYPE: polling ══ */
+        .card-poll {
+            background: #fff
+        }
+
+        .poll-thumb {
+            height: 38%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .poll-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #003366;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .poll-body {
+            padding: 16px 14px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .poll-q {
+            color: #1A1A1A;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3
+        }
+
+        .poll-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px
+        }
+
+        .poll-opt {
+            position: relative;
+            border: 1.5px solid #E0E0E0;
+            border-radius: 100px;
+            padding: 11px 16px;
+            font-size: 14px;
+            color: #1A1A1A;
+            cursor: pointer;
+            overflow: hidden;
+            background: #fff;
+            font-family: inherit;
+            text-align: left;
+            transition: border-color .2s;
+        }
+
+        .poll-opt.selected {
+            background: #E8192C;
+            color: #fff;
+            border-color: #E8192C
+        }
+
+        .poll-opt.voted:not(.selected) {
+            background: #fff
+        }
+
+        .poll-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: #ffecee;
+            z-index: 0;
+            transition: width .6s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .poll-opt-text {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between
+        }
+
+        .poll-pct {
+            font-weight: 700;
+            font-size: 13px;
+            color: #E8192C
+        }
+
+        .poll-opt.selected .poll-pct {
+            color: #fff
+        }
+
+        .poll-votes {
+            color: #9E9E9E;
+            font-size: 12px;
+            margin-top: 4px
+        }
+
+        /* ══ CARD TYPE: live ══ */
+        .card-live {
+            background: #0a0a0a
+        }
+
+        .live-badge {
+            position: absolute;
+            top: 16px;
+            left: 14px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, .6);
+            padding: 5px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #E8192C;
+            border-radius: 50%;
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(1.3)
+            }
+        }
+
+        .live-text {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .5px
+        }
+
+        .live-viewers {
+            position: absolute;
+            top: 16px;
+            right: 14px;
+            z-index: 10;
+            background: rgba(0, 0, 0, .55);
+            color: #fff;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .live-program {
+            position: absolute;
+            bottom: 68px;
+            left: 14px;
+            right: 14px;
+            z-index: 10;
+        }
+
+        .live-prog-name {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 800
+        }
+
+        .live-prog-title {
+            color: rgba(255, 255, 255, .7);
+            font-size: 14px;
+            margin-top: 2px
+        }
+
+        /* ══ BOTTOM DRAWER ══ */
+        #drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+            transform: translateY(100%);
+            transition: transform .3s ease;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -4px 30px rgba(0, 0, 0, .2);
+        }
+
+        #drawer.open {
+            transform: translateY(0)
+        }
+
+        .drawer-handle {
+            width: 40px;
+            height: 4px;
+            background: #E0E0E0;
+            border-radius: 2px;
+            margin: 12px auto 8px;
+            flex-shrink: 0;
+        }
+
+        .drawer-header {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            flex-shrink: 0
+        }
+
+        .drawer-cat {
+            color: #E8192C;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px
+        }
+
+        .drawer-title {
+            color: #1A1A1A;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            color: #333;
+            font-size: 15px;
+            line-height: 1.7
+        }
+
+        .drawer-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #757575;
+        }
+
+        #drawer-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 190;
+            background: rgba(0, 0, 0, .5);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        #drawer-overlay.show {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        /* ── EMOJI BIG CENTER ── */
+        .emoji-center {
+            font-size: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div id="topbar">
+        <div class="tb-row1">
+            <button class="tb-back" aria-label="Kembali">&#8592;</button>
+            <div class="tb-logo">
+                <span class="d">detik</span><span class="k">Kilat</span>
+                <span class="bolt"> ⚡</span>
+            </div>
+        </div>
+        <div class="tb-tabs">
+            <button class="tab-btn active" data-tab="hangat">🔥 Hangat</button>
+            <button class="tab-btn" data-tab="relevan">📌 Relevan</button>
+            <button class="tab-btn" data-tab="dekat">📍 Dekat</button>
+        </div>
+    </div>
+
+    <!-- FEED -->
+    <div id="feed"></div>
+
+    <!-- BOTTOM NAV -->
+    <nav id="bottomnav">
+        <button class="nav-item">
+            <span class="nav-icon">🔵</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-item">
+            <span class="nav-icon">🔍</span>
+            <span>Explore</span>
+        </button>
+        <button class="nav-item active">
+            <span class="nav-icon">⚡</span>
+            <div class="nav-badge"></div>
+            <span>detikKilat</span>
+        </button>
+        <button class="nav-item">
+            <span class="nav-icon">⊞</span>
+            <span>Kategori</span>
+        </button>
+        <button class="nav-item">
+            <span class="nav-icon">▶</span>
+            <span>Video</span>
+        </button>
+    </nav>
+
+    <!-- ARTICLE DRAWER -->
+    <div id="drawer-overlay"></div>
+    <div id="drawer" role="dialog" aria-modal="true">
+        <div class="drawer-handle"></div>
+        <div class="drawer-header">
+            <button class="drawer-close" id="drawerClose">×</button>
+            <div class="drawer-cat" id="drawerCat"></div>
+            <div class="drawer-title" id="drawerTitle"></div>
+        </div>
+        <div class="drawer-body" id="drawerBody"></div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════
+        // MOCK DATA
+        // ═══════════════════════════════════════════
+        const feedData = {
+            hangat: [
+                { id: 1, type: "video_vertical", pillar: "hangat", pillarIcon: "🔥", category: "detikNews", title: "Presiden Resmikan Jalan Tol Baru Sepanjang 120 KM", time: "5 menit lalu", bgColor: "#1a472a", img: "data:image/png;base64,..." },
+                { id: 2, type: "millisecond", pillar: "hangat", pillarIcon: "🔥", category: "detikFinance", title: "Rupiah Menguat ke Level Terkuat Sejak 2023", bullets: ["Bank Indonesia pertahankan suku bunga acuan di 5,75%", "Cadangan devisa naik USD 2,1 miliar dalam sebulan", "Investor asing net buy Rp 4,2 triliun pekan ini", "Inflasi Februari terjaga di angka 2,8% yoy"], time: "12 menit lalu", img: "data:image/png;base64,..." },
+                { id: 3, type: "polling", pillar: "hangat", pillarIcon: "🔥", title: "Setuju kah kamu dengan kebijakan WFH 3 hari seminggu?", options: ["Sangat Setuju", "Setuju", "Tidak Setuju", "Sangat Tidak Setuju"], votes: [4821, 3204, 1893, 929], bgColor: "#2d1b69", img: "data:image/png;base64,..." },
+                { id: 4, type: "article", pillar: "hangat", pillarIcon: "🔥", category: "detikNews", title: "Sidang Putusan MK: Batas Usia Capres Resmi Diubah", lede: "Mahkamah Konstitusi menetapkan putusan baru yang mengubah syarat usia minimum calon presiden dan berdampak besar pada peta politik nasional.", time: "28 menit lalu", bgColor: "#003366", img: "data:image/png;base64,..." },
+                { id: 5, type: "live", pillar: "hangat", pillarIcon: "🔥", program: "detikPagi", viewers: "8,2rb", title: "Liputan Langsung: Sidang MK Hari Ini", bgColor: "#111", img: "data:image/png;base64,..." },
+                { id: 6, type: "video_horizontal", pillar: "hangat", pillarIcon: "🔥", category: "detikNews", title: "Wawancara Eksklusif Menteri Keuangan soal APBN 2026", time: "1 jam lalu", bgColor: "#1a1a2e", img: "data:image/png;base64,..." },
+                { id: 7, type: "video_vertical", pillar: "hangat", pillarIcon: "🔥", category: "detikSport", title: "Timnas Indonesia Lolos ke Final Piala AFF 2025", time: "2 jam lalu", bgColor: "#7b0000", img: "data:image/png;base64,..." },
+                { id: 8, type: "millisecond", pillar: "hangat", pillarIcon: "🔥", category: "detikHealth", title: "Vaksin Dengue Kini Tersedia di Puskesmas Seluruh Indonesia", bullets: ["Pemerintah targetkan 10 juta dosis dalam 6 bulan", "Vaksin gratis untuk anak usia 6–16 tahun", "DBD turun 34% di wilayah uji coba pilot program"], time: "2 jam lalu" },
+                { id: 9, type: "article", pillar: "hangat", pillarIcon: "🔥", category: "detikFinance", title: "IHSG Tembus 8.000 Poin untuk Pertama Kali dalam Sejarah", lede: "Indeks Harga Saham Gabungan mencetak rekor baru sepanjang masa di tengah euforia pasar saham global yang menguat.", time: "3 jam lalu", bgColor: "#004d00", img: "data:image/png;base64,..." },
+                { id: 10, type: "polling", pillar: "hangat", pillarIcon: "🔥", title: "Mana yang lebih kamu prioritaskan saat memilih presiden?", options: ["Rekam Jejak", "Program Kerja", "Karakter Pribadi"], votes: [6200, 8100, 3900], bgColor: "#1a0033", img: "data:image/png;base64,..." },
+                { id: 11, type: "live", pillar: "hangat", pillarIcon: "🔥", program: "detikSore", viewers: "12,4rb", title: "Press Conference Pasca Keputusan MK", bgColor: "#0a0a1a", img: "data:image/png;base64,..." },
+                { id: 12, type: "video_vertical", pillar: "hangat", pillarIcon: "🔥", category: "detikFood", title: "5 Kuliner Viral Jakarta yang Wajib Dicoba di 2025", time: "4 jam lalu", bgColor: "#7a3b00", img: "data:image/png;base64,..." },
+                { id: 13, type: "millisecond", pillar: "hangat", pillarIcon: "🔥", category: "detikInet", title: "AI Lokal Indonesia Siap Saingi ChatGPT", bullets: ["Startup Bandung rilis model bahasa Indonesia terbesar", "Dilatih dengan 10 miliar token data Bahasa Indonesia", "Beta publik dibuka mulai 15 Maret 2025"], time: "5 jam lalu" },
+                { id: 14, type: "article", pillar: "hangat", pillarIcon: "🔥", category: "detikOto", title: "Toyota Luncurkan SUV Listrik Terbarunya di GIIAS 2025", lede: "Toyota memperkenalkan bZ5X, SUV listrik full-size pertama mereka yang dirancang khusus untuk pasar Asia Tenggara.", time: "6 jam lalu", bgColor: "#1a1a1a", img: "data:image/png;base64,..." },
+                { id: 15, type: "video_horizontal", pillar: "hangat", pillarIcon: "🔥", category: "detikTravel", title: "Raja Ampat Masuk 10 Destinasi Terbaik Dunia Versi CNN", time: "7 jam lalu", bgColor: "#003355", img: "data:image/png;base64,..." },
+            ],
+            relevan: [
+                { id: 101, type: "article", pillar: "relevan", pillarIcon: "📌", category: "detikNews", title: "RUU Perlindungan Data Pribadi Akhirnya Disahkan DPR", lede: "DPR mengesahkan Rancangan Undang-Undang Perlindungan Data Pribadi setelah melalui perdebatan panjang dua tahun.", time: "1 jam lalu", bgColor: "#1a0a3d", img: "data:image/png;base64,..." },
+                { id: 102, type: "video_vertical", pillar: "relevan", pillarIcon: "📌", category: "detikFinance", title: "5 Cara Investasi Aman di Tengah Ketidakpastian Global", time: "2 jam lalu", bgColor: "#003320", img: "data:image/png;base64,..." },
+                { id: 103, type: "millisecond", pillar: "relevan", pillarIcon: "📌", category: "detikInet", title: "Cara Melindungi Data Pribadi di Era Digital", bullets: ["Gunakan password unik untuk setiap akun", "Aktifkan autentikasi dua faktor (2FA)", "Hindari klik tautan dari pengirim tak dikenal", "Perbarui aplikasi secara rutin"], time: "3 jam lalu" },
+                { id: 104, type: "polling", pillar: "relevan", pillarIcon: "📌", title: "Apakah kamu sudah menggunakan e-KTP digital?", options: ["Sudah", "Belum, tapi mau", "Belum tahu"], votes: [3100, 4200, 2800], bgColor: "#001a33", img: "data:image/png;base64,..." },
+                { id: 105, type: "live", pillar: "relevan", pillarIcon: "📌", program: "detikMalam", viewers: "4,7rb", title: "Diskusi: Dampak UU PDP bagi Pengguna Internet", bgColor: "#050510", img: "data:image/png;base64,..." },
+                { id: 106, type: "video_horizontal", pillar: "relevan", pillarIcon: "📌", category: "detikHealth", title: "Panduan Pola Makan Sehat untuk Generasi Z", time: "4 jam lalu", bgColor: "#1a3300", img: "data:image/png;base64,..." },
+                { id: 107, type: "article", pillar: "relevan", pillarIcon: "📌", category: "detikFinance", title: "OJK: Pinjol Ilegal Masih Marak, Ini Ciri-cirinya", lede: "Otoritas Jasa Keuangan mencatat ribuan laporan penipuan pinjaman online ilegal sepanjang tahun 2024.", time: "5 jam lalu", bgColor: "#330000", img: "data:image/png;base64,..." },
+                { id: 108, type: "video_vertical", pillar: "relevan", pillarIcon: "📌", category: "detikInet", title: "Kenali Modus Phishing Terbaru yang Targetkan Rekening Bank", time: "6 jam lalu", bgColor: "#001133", img: "data:image/png;base64,..." },
+                { id: 109, type: "millisecond", pillar: "relevan", pillarIcon: "📌", category: "detikHealth", title: "Manfaat Puasa Intermiten: Fakta vs Mitos", bullets: ["Studi: IF 16:8 efektif turunkan berat badan 5–8%", "Tidak direkomendasikan untuk ibu hamil dan anak-anak", "Konsultasi dokter sebelum memulai program"], time: "7 jam lalu" },
+                { id: 110, type: "polling", pillar: "relevan", pillarIcon: "📌", title: "Seberapa sering kamu cek berita dalam sehari?", options: ["Lebih dari 5 kali", "3–5 kali", "1–2 kali", "Jarang"], votes: [2900, 5100, 4300, 1200], bgColor: "#1a1a00", img: "data:image/png;base64,..." },
+                { id: 111, type: "article", pillar: "relevan", pillarIcon: "📌", category: "detikOto", title: "Motor Listrik Nasional Mulai Dipasarkan, Harga Terjangkau", lede: "Produsen motor listrik buatan Indonesia resmi memasarkan produk terbarunya dengan harga mulai Rp 12 juta.", time: "8 jam lalu", bgColor: "#1a2a00", img: "data:image/png;base64,..." },
+                { id: 112, type: "live", pillar: "relevan", pillarIcon: "📌", program: "detikPagi", viewers: "6,1rb", title: "Webinar: Investasi Kripto 2025 bersama OJK", bgColor: "#0a0a00", img: "data:image/png;base64,..." },
+                { id: 113, type: "video_horizontal", pillar: "relevan", pillarIcon: "📌", category: "detikFinance", title: "Dolar Melemah: Efek untuk Keuangan Kamu", time: "9 jam lalu", bgColor: "#002211", img: "data:image/png;base64,..." },
+                { id: 114, type: "millisecond", pillar: "relevan", pillarIcon: "📌", category: "detikInet", title: "Android 16 Dirilis: Fitur Baru yang Wajib Kamu Tahu", bullets: ["Antarmuka baru berbasis Material You 3.0", "Dukungan AI on-device yang lebih canggih", "Baterai adaptif diperpanjang hingga 40%"], time: "10 jam lalu" },
+                { id: 115, type: "video_vertical", pillar: "relevan", pillarIcon: "📌", category: "detikFood", title: "Resep Viral: Nasi Goreng Truffle ala Chef Renatta", time: "11 jam lalu", bgColor: "#2a1400", img: "data:image/png;base64,..." },
+            ],
+            dekat: [
+                { id: 201, type: "video_vertical", pillar: "dekat", pillarIcon: "📍", category: "detikJabar", title: "Banjir Bandang Terjang 3 Kecamatan di Garut, 500 Warga Mengungsi", time: "30 menit lalu", bgColor: "#001f3f", img: "data:image/png;base64,..." },
+                { id: 202, type: "article", pillar: "dekat", pillarIcon: "📍", category: "detikJateng", title: "Solo Raya Siap Jadi Pusat Pariwisata Budaya Nasional", lede: "Pemerintah Kota Solo mengumumkan rencana pengembangan kawasan wisata budaya terintegrasi senilai Rp 2 triliun.", time: "1 jam lalu", bgColor: "#3d1a00", img: "data:image/png;base64,..." },
+                { id: 203, type: "millisecond", pillar: "dekat", pillarIcon: "📍", category: "detikJakarta", title: "Kemacetan Jakarta: Titik Terparah & Solusi Pemerintah", bullets: ["Koridor MRT Fase 3 ditargetkan beroperasi 2027", "Kebijakan ganjil-genap diperluas ke 50 ruas jalan", "Integrasi KRL–MRT–TransJakarta ditingkatkan"], time: "2 jam lalu", img: "data:image/png;base64,..." },
+                { id: 204, type: "polling", pillar: "dekat", pillarIcon: "📍", title: "Seberapa puas kamu dengan layanan transportasi umum di kotamu?", options: ["Sangat Puas", "Cukup Puas", "Tidak Puas"], votes: [1800, 5200, 6100], bgColor: "#1a0000", img: "data:image/png;base64,..." },
+                { id: 205, type: "live", pillar: "dekat", pillarIcon: "📍", program: "detikJawa", viewers: "2,3rb", title: "Liputan Banjir Garut: Update Terkini Kondisi Pengungsi", bgColor: "#001122", img: "data:image/png;base64,..." },
+                { id: 206, type: "video_horizontal", pillar: "dekat", pillarIcon: "📍", category: "detikSurabaya", title: "Surabaya Night Carnival 2025 Siap Digelar Maret Ini", time: "3 jam lalu", bgColor: "#1a0020", img: "data:image/png;base64,..." },
+                { id: 207, type: "article", pillar: "dekat", pillarIcon: "📍", category: "detikBali", title: "Pura Besakih Dibuka Kembali untuk Wisatawan Mancanegara", lede: "Pemerintah Provinsi Bali mengumumkan pembukaan kembali Pura Besakih untuk wisatawan asing dengan protokol baru.", time: "4 jam lalu", bgColor: "#4d1a00", img: "data:image/png;base64,..." },
+                { id: 208, type: "video_vertical", pillar: "dekat", pillarIcon: "📍", category: "detikMakassar", title: "Festival Kuliner Makassar 2025 Hadirkan 200 UMKM Lokal", time: "5 jam lalu", bgColor: "#1a3300", img: "data:image/png;base64,..." },
+                { id: 209, type: "millisecond", pillar: "dekat", pillarIcon: "📍", category: "detikMedan", title: "Harga Cabai di Medan Melonjak Jelang Ramadan", bullets: ["Harga cabai merah tembus Rp 80.000/kg", "Distribusi terganggu akibat curah hujan tinggi", "Pemkot siapkan pasar murah di 12 titik"], time: "6 jam lalu" },
+                { id: 210, type: "polling", pillar: "dekat", pillarIcon: "📍", title: "Apakah kotamu sudah punya jalur sepeda yang memadai?", options: ["Sudah sangat baik", "Cukup memadai", "Masih kurang", "Belum ada"], votes: [800, 2300, 5600, 4100], bgColor: "#001a00", img: "data:image/png;base64,..." },
+                { id: 211, type: "live", pillar: "dekat", pillarIcon: "📍", program: "detikBandung", viewers: "3,5rb", title: "Siaran Langsung: Car Free Day Bandung", bgColor: "#050505", img: "data:image/png;base64,..." },
+                { id: 212, type: "article", pillar: "dekat", pillarIcon: "📍", category: "detikJogja", title: "Gudeg Legendaris Mbak Lin Tutup Setelah 47 Tahun Berdiri", lede: "Warung gudeg legendaris di kawasan Malioboro resmi tutup permanen setelah 47 tahun melayani pelanggan setia.", time: "7 jam lalu", bgColor: "#2d1a00", img: "data:image/png;base64,..." },
+                { id: 213, type: "video_horizontal", pillar: "dekat", pillarIcon: "📍", category: "detikPalembang", title: "Jembatan Ampera Kini Punya Atraksi Cahaya Malam", time: "8 jam lalu", bgColor: "#1a1a00", img: "data:image/png;base64,..." },
+                { id: 214, type: "millisecond", pillar: "dekat", pillarIcon: "📍", category: "detikKaltim", title: "IKN Update: Istana Presiden 80% Selesai", bullets: ["Istana Kepresidenan IKN capai progres 80%", "Jalan tol akses IKN seksi 6 selesai Maret", "500 ASN pertama pindah ke IKN April 2025"], time: "9 jam lalu" },
+                { id: 215, type: "video_vertical", pillar: "dekat", pillarIcon: "📍", category: "detikJakarta", title: "CFD Jakarta Kembali Ramai: Tips Menikmati Akhir Pekan", time: "10 jam lalu", bgColor: "#00001a", img: "data:image/png;base64,..." },
+            ]
+        };
+
+        // ═══════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════
+        let activeTab = 'hangat';
+        let polledCards = new Set();
+        let audioPlaying = new Set();
+
+        // ═══════════════════════════════════════════
+        // CARD RENDERERS
+        // ═══════════════════════════════════════════
+        function renderCard(d) {
+            const el = document.createElement('div');
+            el.className = 'card';
+            el.dataset.id = d.id;
+            el.dataset.type = d.type;
+
+            switch (d.type) {
+                case 'video_vertical': el.innerHTML = renderVideoVertical(d); el.className += ' card-vv'; break;
+                case 'video_horizontal': el.innerHTML = renderVideoHorizontal(d); el.className += ' card-vh'; break;
+                case 'article': el.innerHTML = renderArticle(d); el.className += ' card-article'; break;
+                case 'millisecond': el.innerHTML = renderMillisecond(d); el.className += ' card-ms'; break;
+                case 'polling': el.innerHTML = renderPolling(d); el.className += ' card-poll'; break;
+                case 'live': el.innerHTML = renderLive(d); el.className += ' card-live'; break;
+            }
+
+            attachCardEvents(el, d);
+            return el;
+        }
+
+        function renderVideoVertical(d) {
+            const imgEl = d.img ? `<img class="img-bg" src="${d.img}" alt="" loading="lazy">` : '';
+            return `
+    <div class="video-bg" style="background:${d.bgColor || '#111'};position:absolute;inset:0">
+      ${imgEl}
+      <div class="play-center">▶</div>
+    </div>
+    <div class="grad-top"></div>
+    <div class="grad-bottom"></div>
+    <button class="action-btn speaker-btn" data-muted="true" aria-label="Toggle mute">🔇</button>
+    <div class="card-meta">
+      <div class="pillar-badge">${d.pillarIcon} ${d.pillar.charAt(0).toUpperCase() + d.pillar.slice(1)}</div>
+      <div class="card-category">${d.category}</div>
+      <div class="card-title">${d.title}</div>
+      <div class="card-time">${d.time}</div>
+    </div>
+    <div class="card-actions">
+      <button class="action-btn" aria-label="Share">📤</button>
+      <button class="action-btn" aria-label="Save">🔖</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${Math.random() * 70 + 10}%"></div></div>
+  `;
+        }
+
+        function renderVideoHorizontal(d) {
+            const imgEl = d.img ? `<img class="img-bg" src="${d.img}" alt="" loading="lazy" style="opacity:0.55">` : '';
+            return `
+    <div style="position:absolute;inset:0;background:${d.bgColor || '#000'}">${imgEl}</div>
+    <div class="grad-bottom"></div>
+    <div class="vh-video-wrap">
+      <div class="vh-video" style="background:rgba(0,0,0,0.55);position:relative;overflow:hidden">
+        ${d.img ? `<img src="${d.img}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7" alt="">` : ''}
+        <span style="font-size:48px;position:relative;z-index:2">▶</span>
+        <button class="vh-fullscreen" style="z-index:3">⛶</button>
+      </div>
+    </div>
+    <div class="vh-info">
+      <div class="pillar-badge">${d.pillarIcon} ${d.pillar.charAt(0).toUpperCase() + d.pillar.slice(1)}</div>
+      <div class="card-category">${d.category}</div>
+      <div class="card-title">${d.title}</div>
+      <div class="card-time">${d.time}</div>
+    </div>
+    <div class="card-actions">
+      <button class="action-btn" aria-label="Share">📤</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${Math.random() * 60 + 20}%"></div></div>
+  `;
+        }
+
+        function renderArticle(d) {
+            const imgEl = d.img
+                ? `<img src="${d.img}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center" alt="" loading="lazy">`
+                : `<span style="font-size:56px;opacity:.3">📰</span>`;
+            return `
+    <div class="article-thumb" style="background:${d.bgColor || '#003366'};position:relative">
+      ${imgEl}
+      <div class="article-thumb-label" style="position:absolute;top:14px;left:14px">${d.category}</div>
+    </div>
+    <div class="article-body">
+      <div class="article-cat">${d.category}</div>
+      <div class="article-title">${d.title}</div>
+      <div class="article-lede">${d.lede}</div>
+      <div class="article-row">
+        <span class="article-time">⏱ ${d.time}</span>
+        <button class="baca-btn" data-article-id="${d.id}">Baca Selengkapnya →</button>
+      </div>
+    </div>
+  `;
+        }
+
+        function renderMillisecond(d) {
+            const bullets = d.bullets.map(b => `<div class="ms-bullet"><span class="ms-dash">—</span><span>${b}</span></div>`).join('');
+            return `
+    <div class="ms-texture"></div>
+    <div class="ms-content">
+      <div class="ms-logo">
+        <div class="ms-logo-text">Mili<em>detik</em> ⚡</div>
+      </div>
+      <div class="ms-badge">⚡ MILIDETIK</div>
+      <div class="ms-headline">${d.title}</div>
+      <div class="ms-bullets">${bullets}</div>
+    </div>
+    <div class="ms-audio">
+      <button class="audio-play" data-playing="false" aria-label="Play audio">▶</button>
+      <div class="audio-wave">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+      <div class="audio-info">
+        <div class="audio-dur">0:45</div>
+        <div class="audio-label">Dirangkum oleh AI detik</div>
+      </div>
+    </div>
+    <div class="progress-bar" style="bottom:48px"><div class="progress-fill" style="width:0%"></div></div>
+  `;
+        }
+
+        function renderPolling(d) {
+            const total = d.votes.reduce((a, b) => a + b, 0);
+            const opts = d.options.map((o, i) => {
+                const pct = Math.round((d.votes[i] / total) * 100);
+                return `
+      <button class="poll-opt" data-index="${i}" data-pct="${pct}">
+        <div class="poll-bar" style="width:0%"></div>
+        <div class="poll-opt-text">
+          <span class="poll-label">${o}</span>
+          <span class="poll-pct" style="display:none">${pct}%</span>
+        </div>
+      </button>`;
+            }).join('');
+            const totalFmt = (total + Math.floor(Math.random() * 5000)).toLocaleString('id-ID');
+            return `
+    <div class="poll-thumb" style="background:${d.bgColor || '#001A33'};position:relative;overflow:hidden">
+      ${d.img ? `<img src="${d.img}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5" alt="" loading="lazy">` : `<span style="font-size:52px">📊</span>`}
+      <div class="poll-badge" style="position:absolute;top:10px;left:10px">📊 POLLING</div>
+    </div>
+    <div class="poll-body">
+      <div class="poll-q">${d.title}</div>
+      <div class="poll-options">${opts}</div>
+      <div class="poll-votes" style="display:none">${totalFmt} suara</div>
+    </div>
+  `;
+        }
+
+        function renderLive(d) {
+            const imgEl = d.img ? `<img src="${d.img}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45" alt="" loading="lazy">` : '';
+            return `
+    <div style="position:absolute;inset:0;background:${d.bgColor || '#0a0a0a'}">${imgEl}</div>
+    <div class="grad-bottom"></div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      <span class="live-text">LIVE</span>
+    </div>
+    <div class="live-viewers">👁 ${d.viewers}</div>
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+      <div class="play-center" style="width:80px;height:80px;font-size:32px">▶</div>
+    </div>
+    <button class="action-btn speaker-btn" data-muted="true" aria-label="Toggle mute">🔇</button>
+    <div class="live-program">
+      <div class="live-prog-name">${d.program}</div>
+      <div class="live-prog-title">${d.title}</div>
+    </div>
+    <div class="card-actions">
+      <button class="action-btn">📤</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%;animation:liveBar 2s linear infinite alternate"></div></div>
+    <style>.progress-bar .progress-fill{background:#E8192C}</style>
+  `;
+        }
+
+        // ═══════════════════════════════════════════
+        // EVENTS PER CARD
+        // ═══════════════════════════════════════════
+        function attachCardEvents(el, d) {
+            // Speaker toggle
+            el.querySelectorAll('.speaker-btn').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const muted = btn.dataset.muted === 'true';
+                    btn.dataset.muted = !muted;
+                    btn.textContent = muted ? '🔊' : '🔇';
+                });
+            });
+
+            // Article drawer
+            if (d.type === 'article') {
+                const baca = el.querySelector('.baca-btn');
+                if (baca) baca.addEventListener('click', e => {
+                    e.stopPropagation();
+                    openDrawer(d);
+                });
+            }
+
+            // Polling
+            if (d.type === 'polling') {
+                el.querySelectorAll('.poll-opt').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (polledCards.has(d.id)) return;
+                        polledCards.add(d.id);
+                        const allOpts = el.querySelectorAll('.poll-opt');
+                        allOpts.forEach(o => o.classList.add('voted'));
+                        btn.classList.add('selected');
+                        // animate bars
+                        allOpts.forEach(o => {
+                            o.querySelector('.poll-bar').style.width = o.dataset.pct + '%';
+                            o.querySelector('.poll-pct').style.display = 'block';
+                        });
+                        el.querySelector('.poll-votes').style.display = 'block';
+                    });
+                });
+            }
+
+            // Audio play/pause
+            if (d.type === 'millisecond') {
+                const playBtn = el.querySelector('.audio-play');
+                const fill = el.querySelector('.progress-fill');
+                let progress = 0, timer = null;
+                playBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const playing = playBtn.dataset.playing === 'true';
+                    playBtn.dataset.playing = !playing;
+                    playBtn.textContent = playing ? '▶' : '⏸';
+                    if (!playing) {
+                        timer = setInterval(() => {
+                            progress = Math.min(100, progress + 0.5);
+                            if (fill) fill.style.width = progress + '%';
+                            if (progress >= 100) { clearInterval(timer); playBtn.textContent = '▶'; playBtn.dataset.playing = 'false'; progress = 0; }
+                        }, 225);
+                    } else {
+                        clearInterval(timer);
+                    }
+                });
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // DRAWER
+        // ═══════════════════════════════════════════
+        function openDrawer(d) {
+            document.getElementById('drawerCat').textContent = d.category;
+            document.getElementById('drawerTitle').textContent = d.title;
+            document.getElementById('drawerBody').innerHTML = `
+    <p style="margin-bottom:12px;color:#555">${d.lede}</p>
+    <p style="margin-bottom:12px">Jakarta — Perkembangan terbaru mengenai <strong>${d.title}</strong> terus menarik perhatian publik nasional. Para pengamat menilai keputusan ini akan berdampak signifikan terhadap arah kebijakan ke depan.</p>
+    <p style="margin-bottom:12px">Menurut sumber yang dihubungi detikcom, langkah ini merupakan bagian dari roadmap jangka panjang yang telah dipersiapkan selama beberapa bulan terakhir. Proses yang berjalan pun dinilai transparan dan sesuai prosedur.</p>
+    <p style="margin-bottom:12px">"Ini adalah tonggak sejarah yang perlu dikaji secara mendalam oleh semua pihak," ujar pengamat senior dari Universitas Indonesia.</p>
+    <p style="margin-bottom:12px">Reaksi dari berbagai kalangan pun bermunculan. Sebagian menyambut positif, sementara sebagian lain masih menunggu implementasi lebih lanjut di lapangan.</p>
+    <p style="margin-bottom:12px">Pihak berwenang dijadwalkan akan menggelar konferensi pers lengkap pada pekan depan untuk menjelaskan rincian teknis dan timeline implementasi yang akan diambil.</p>
+    <p style="color:#9E9E9E;font-size:12px">⏱ ${d.time} · ${d.category}</p>
+  `;
+            document.getElementById('drawer').classList.add('open');
+            document.getElementById('drawer-overlay').classList.add('show');
+        }
+
+        function closeDrawer() {
+            document.getElementById('drawer').classList.remove('open');
+            document.getElementById('drawer-overlay').classList.remove('show');
+        }
+
+        document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+        document.getElementById('drawer-overlay').addEventListener('click', closeDrawer);
+
+        // Swipe down to close drawer
+        (function () {
+            const dr = document.getElementById('drawer');
+            let startY = 0, dragging = false;
+            dr.addEventListener('touchstart', e => { startY = e.touches[0].clientY; dragging = true }, { passive: true });
+            dr.addEventListener('touchmove', e => {
+                if (!dragging) return;
+                const dy = e.touches[0].clientY - startY;
+                if (dy > 0) dr.style.transform = `translateY(${dy}px)`;
+            }, { passive: true });
+            dr.addEventListener('touchend', e => {
+                dragging = false;
+                const dy = e.changedTouches[0].clientY - startY;
+                if (dy > 80) { closeDrawer(); }
+                dr.style.transform = '';
+            });
+        })();
+
+        // ═══════════════════════════════════════════
+        // TAB SWITCHING
+        // ═══════════════════════════════════════════
+        function loadTab(tab) {
+            activeTab = tab;
+            const feed = document.getElementById('feed');
+            feed.innerHTML = '';
+            feedData[tab].forEach(d => {
+                feed.appendChild(renderCard(d));
+            });
+            feed.scrollTop = 0;
+            observeCards();
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadTab(btn.dataset.tab);
+            });
+        });
+
+        // ═══════════════════════════════════════════
+        // INTERSECTION OBSERVER
+        // ═══════════════════════════════════════════
+        function observeCards() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const el = entry.target;
+                    const waves = el.querySelectorAll('.wave-bar');
+                    if (entry.isIntersecting) {
+                        waves.forEach(w => w.style.animationPlayState = 'running');
+                        const dot = el.querySelector('.live-dot');
+                        if (dot) dot.style.animationPlayState = 'running';
+                    } else {
+                        waves.forEach(w => w.style.animationPlayState = 'paused');
+                    }
+                });
+            }, { threshold: 0.8 });
+
+            document.querySelectorAll('.card').forEach(c => observer.observe(c));
+        }
+
+        // ═══════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════
+        loadTab('hangat');
+    </script>
+</body>
+
+</html>
