@@ -6,28 +6,20 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>detik Vertical Experience</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
     <!-- Font Awesome for icons (Like, Comment, etc) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --detik-blue: #0066CC;
-            --detik-blue-dark: #004a99;
-            --detik-blue-glow: rgba(0, 102, 204, 0.35);
+            --detik-blue: #00509E;
+            --detik-blue-dark: #003a73;
             --text-white: #ffffff;
             --text-gray: #e0e0e0;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body,
@@ -35,38 +27,37 @@
             height: 100%;
             width: 100%;
             background-color: #000;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
             color: #fff;
         }
 
-        /* ========== MUTE BUTTON ========== */
+
+        /* Mute Button */
         .mute-btn {
             position: absolute;
-            top: 68px;
-            right: 16px;
+            top: 20px;
+            right: 20px;
             z-index: 60;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.15s, background 0.2s;
-            font-size: 14px;
+            transition: 0.2s;
         }
 
         .mute-btn:active {
-            transform: scale(0.88);
+            transform: scale(0.9);
         }
 
-        /* ========== MEDIA CONTAINER ========== */
+        /* Media Container for custom aspect ratios */
         .media-container {
             position: absolute;
             top: 15vh;
@@ -75,6 +66,7 @@
             bottom: 0;
             display: flex;
             align-items: flex-start;
+            /* Default push to top for custom aspect ratios */
             justify-content: center;
             z-index: 2;
             pointer-events: none;
@@ -92,14 +84,14 @@
             max-width: 100%;
             max-height: 80dvh;
             object-fit: contain;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
             background: #000;
             display: block;
             margin: 0 auto;
         }
 
-        /* Aspect Ratio Formats */
+        /* Forcing strictly correct aspect ratios */
         .format-9-16 {
             width: 100%;
             height: 100dvh;
@@ -113,10 +105,9 @@
             width: 100%;
             height: auto;
             aspect-ratio: 3/4;
-            max-width: min(85vw, 58vh);
+            max-width: min(85vw, 60vh);
             object-fit: cover;
-            margin-top: 8dvh;
-            border-radius: 16px;
+            margin-top: 10dvh;
         }
 
         .format-5-4 {
@@ -127,6 +118,7 @@
             object-fit: cover;
             border-radius: 0;
             margin-top: 10dvh;
+            /* Force alignment towards top */
             align-self: flex-start;
         }
 
@@ -141,26 +133,25 @@
             background: transparent;
         }
 
-        /* ========== POLL SOURCE ========== */
         .poll-source {
-            margin-top: 16px;
-            background: rgba(0, 102, 204, 0.15);
-            border: 1px solid rgba(0, 102, 204, 0.4);
-            border-radius: 12px;
-            padding: 12px 14px;
+            margin-top: 15px;
+            background: rgba(0, 80, 158, 0.2);
+            border: 1px solid var(--detik-blue);
+            border-radius: 8px;
+            padding: 12px;
             display: flex;
             align-items: center;
             gap: 12px;
             text-decoration: none;
             color: white;
-            transition: background 0.2s;
+            transition: 0.2s;
         }
 
         .poll-source:active {
-            background: rgba(0, 102, 204, 0.35);
+            background: rgba(0, 80, 158, 0.4);
         }
 
-        /* ========== TOP BAR ========== */
+        /* Top Bar */
         #topbar {
             position: fixed;
             top: 0;
@@ -170,14 +161,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: env(safe-area-inset-top, 12px) 20px 12px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+            padding: 16px 20px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
         }
 
         .logo {
-            font-size: 21px;
-            font-weight: 900;
-            letter-spacing: -1px;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
             color: #fff;
         }
 
@@ -185,30 +176,19 @@
             color: var(--detik-blue);
         }
 
-        /* Card counter pill */
-        #card-counter {
-            font-size: 11px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            padding: 5px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            letter-spacing: 0.5px;
-        }
-
-        /* ========== FEED ========== */
+        /* Feed container */
         #feed {
             height: 100dvh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            /* Firefox */
         }
 
         #feed::-webkit-scrollbar {
             display: none;
+            /* Chrome */
         }
 
         .card {
@@ -216,63 +196,60 @@
             width: 100%;
             scroll-snap-align: start;
             position: relative;
-            background: #0a0a0a;
+            background: #111;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
 
-        /* ========== BACKGROUNDS ========== */
+        /* Content Backgrounds */
         .bg-image {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.65;
+            opacity: 0.6;
             z-index: 1;
         }
 
         @keyframes panImage {
             0% {
-                object-position: 20% 50%;
-                transform: scale(1.12);
+                object-position: 0% 50%;
+                transform: scale(1.1);
             }
 
             50% {
-                object-position: 80% 50%;
-                transform: scale(1.12);
+                object-position: 100% 50%;
+                transform: scale(1.1);
             }
 
             100% {
-                object-position: 20% 50%;
-                transform: scale(1.12);
+                object-position: 0% 50%;
+                transform: scale(1.1);
             }
         }
 
         .anim-pan {
-            animation: panImage 24s ease-in-out infinite;
+            animation: panImage 20s ease-in-out infinite;
         }
 
         .bg-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top,
-                    rgba(0, 0, 0, 0.92) 0%,
-                    rgba(0, 0, 0, 0.35) 45%,
-                    rgba(0, 0, 0, 0.05) 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0) 100%);
             z-index: 2;
         }
 
-        /* ========== RIGHT ACTIONS ========== */
+        /* Right Actions (TikTok style) */
         .right-actions {
             position: absolute;
             right: 12px;
-            bottom: 92px;
+            bottom: 90px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             align-items: center;
             z-index: 50;
         }
@@ -284,187 +261,171 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             cursor: pointer;
-            transition: transform 0.18s cubic-bezier(.34, 1.56, .64, 1);
+            transition: transform 0.2s;
         }
 
         .action-btn:active {
-            transform: scale(0.82);
+            transform: scale(0.9);
         }
 
         .action-icon {
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.38);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 19px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            font-size: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.2s;
         }
 
         .action-btn.liked .action-icon {
-            background: rgba(255, 43, 84, 0.2);
-            border-color: rgba(255, 43, 84, 0.5);
             color: #ff2b54;
         }
 
         .action-btn.bookmarked .action-icon {
-            background: var(--detik-blue-glow);
-            border-color: rgba(0, 102, 204, 0.5);
             color: var(--detik-blue);
         }
 
         .action-text {
             font-size: 11px;
-            font-weight: 700;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
-        /* ========== CARD INFO ========== */
+        /* Card Info Section */
         .card-info {
             position: absolute;
             left: 16px;
-            bottom: 44px;
-            right: 72px;
+            bottom: 40px;
+            right: 70px;
             z-index: 50;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
-        /* ========== BADGES ========== */
+        /* Group labels */
         .badges-wrap {
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .content-badge {
             background: var(--detik-blue);
             color: #fff;
-            padding: 4px 9px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.7px;
+            letter-spacing: 0.5px;
         }
 
         .tab-badge {
-            background: rgba(255, 255, 255, 0.14);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: rgba(255, 255, 255, 0.9);
-            padding: 4px 9px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 700;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .break-badge {
             background: #E8192C;
-            animation: blinker 1.4s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(232, 25, 44, 0.6);
+            /* Breaking is traditionally red */
+            animation: blinker 1.5s linear infinite;
         }
 
         @keyframes blinker {
             50% {
-                opacity: 0.45;
-                box-shadow: 0 0 3px rgba(232, 25, 44, 0.2);
+                opacity: 0.5;
             }
         }
 
-        /* ========== TRUST ELEMENT ========== */
+        /* Trust elements */
         .trust-element {
-            font-size: 12px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            color: #ccc;
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .trust-element i {
-            font-size: 10px;
+            font-size: 11px;
             color: var(--detik-blue);
         }
 
         .trust-element a {
-            color: rgba(255, 255, 255, 0.6);
+            color: #ccc;
             text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            border-bottom: 1px solid #555;
         }
 
-        /* ========== TYPOGRAPHY ========== */
+        /* Titles and summaries */
         .card-title {
-            font-size: 19px;
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 2px;
-            letter-spacing: -0.3px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
         }
 
         .story-text {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 400;
-            line-height: 1.55;
-            color: rgba(255, 255, 255, 0.82);
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.5;
+            color: #eee;
+            margin-top: 4px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
         .quote-text {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 24px;
+            font-weight: 700;
             line-height: 1.3;
             color: #fff;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 12px;
+            margin-bottom: 12px;
             font-style: italic;
             border-left: 4px solid var(--detik-blue);
-            padding-left: 14px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            padding-left: 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .quote-context {
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 12px;
+            font-size: 14px;
+            color: #ccc;
+            margin-top: 16px;
             line-height: 1.5;
         }
 
         .cta-link {
-            font-size: 13px;
-            font-weight: 700;
-            color: #5aabff;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--detik-blue);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            margin-top: 6px;
-            letter-spacing: 0.2px;
+            gap: 4px;
+            margin-top: 8px;
         }
 
-        .cta-link i {
-            font-size: 11px;
-        }
-
-        /* ========== CAROUSEL ========== */
+        /* Carousel specifics */
         .carousel-container {
             width: 100%;
             height: 100%;
@@ -472,7 +433,6 @@
             overflow-x: scroll;
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
-            scroll-behavior: smooth;
         }
 
         .carousel-container::-webkit-scrollbar {
@@ -489,27 +449,26 @@
 
         .carousel-indicators {
             position: absolute;
-            top: 56px;
+            top: 20px;
             left: 16px;
             right: 16px;
             display: flex;
-            gap: 5px;
+            gap: 4px;
             z-index: 60;
         }
 
         .c-ind {
             flex: 1;
-            height: 2.5px;
-            background: rgba(255, 255, 255, 0.22);
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 2px;
-            transition: background 0.3s;
         }
 
         .c-ind.active {
             background: #fff;
         }
 
-        /* ========== VIDEO ========== */
+        /* Video / Live */
         video:not(.media-item) {
             width: 100%;
             height: 100%;
@@ -523,36 +482,21 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.9);
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.6);
             z-index: 10;
             pointer-events: none;
-            opacity: 1;
-            transition: opacity 0.25s, transform 0.25s;
         }
 
-        .play-btn.hidden {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.7);
-        }
-
-        /* ========== LIVE UPDATES ========== */
+        /* Live Report horizontal slide */
         .live-updates {
             display: flex;
             overflow-x: scroll;
             scroll-snap-type: x mandatory;
-            gap: 10px;
+            gap: 12px;
             margin-top: 12px;
-            padding-bottom: 4px;
+            padding-bottom: 8px;
             scrollbar-width: none;
         }
 
@@ -561,60 +505,50 @@
         }
 
         .update-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            padding: 12px 14px;
-            flex: 0 0 87%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            flex: 0 0 85%;
             scroll-snap-align: start;
         }
 
         .update-time {
-            font-size: 10px;
-            font-weight: 800;
+            font-size: 11px;
             color: var(--detik-blue);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
         .update-text {
             font-size: 13px;
-            line-height: 1.45;
-            font-weight: 400;
+            line-height: 1.4;
         }
 
-        /* ========== POLLING ========== */
+        /* Polling */
         .poll-container {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 8px;
-            margin-top: 14px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
             backdrop-filter: blur(8px);
         }
 
         .poll-opt {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 12px 14px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 14px;
+            border-radius: 6px;
             margin-bottom: 8px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
             position: relative;
             overflow: hidden;
-            transition: border-color 0.2s, background 0.2s;
+            transition: 0.2s;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-        }
-
-        .poll-opt:last-child {
-            margin-bottom: 0;
         }
 
         .poll-opt.voted {
@@ -626,11 +560,10 @@
             left: 0;
             top: 0;
             bottom: 0;
-            background: linear-gradient(90deg, rgba(0, 102, 204, 0.35), rgba(0, 102, 204, 0.15));
+            background: rgba(0, 80, 158, 0.4);
             width: 0%;
             z-index: 0;
-            transition: width 0.6s cubic-bezier(.4, 0, .2, 1);
-            border-radius: 10px 0 0 10px;
+            transition: width 0.5s;
         }
 
         .poll-text {
@@ -641,440 +574,58 @@
         .poll-pct {
             position: relative;
             z-index: 1;
-            font-weight: 800;
-            font-size: 13px;
-            color: var(--detik-blue);
+            font-weight: bold;
             display: none;
         }
 
-
-        .minimalist-btn {
-            background: var(--detik-blue);
-            color: #fff;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 22px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 12px;
-            letter-spacing: 0.2px;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        /* ========== CARD ENTRY ANIMATION ========== */
-        @keyframes cardEntrance {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card-info-animate {
-            animation: cardEntrance 0.4s cubic-bezier(.22, 1, .36, 1) both;
-        }
-
-        /* ========== UPGRADE 1: GRADIENT ACCENT SYSTEM ========== */
-        :root {
-            --detik-blue: #0066CC;
-            --detik-purple: #7B3FF1;
-            --detik-red: #E8192C;
-            --detik-green: #00C853;
-            --detik-orange: #FF6D00;
-            --detik-gold: #FFB300;
-            --grad-accent: linear-gradient(135deg, #0066CC 0%, #7B3FF1 100%);
-            --grad-warm: linear-gradient(135deg, #E8192C 0%, #FF6D00 100%);
-            --grad-blue-glow: rgba(0, 102, 204, 0.3);
-        }
-
-        /* ========== UPGRADE 2: GLASSMORPHISM CARD INFO PANEL ========== */
-        .card-info-panel {
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(20px) saturate(1.5);
-            -webkit-backdrop-filter: blur(20px) saturate(1.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 16px 18px;
-            position: absolute;
-            left: 12px;
-            bottom: 88px;
-            right: 72px;
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        /* ========== UPGRADE 3: VIDEO PROGRESS BAR ========== */
-        .video-progress {
-            position: absolute;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            z-index: 60;
-            overflow: hidden;
-        }
-
-        .video-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #0066CC, #7B3FF1);
-            width: 0%;
-            transition: width 0.25s linear;
-            box-shadow: 0 0 6px rgba(123, 63, 241, 0.8);
-        }
-
-        /* ========== UPGRADE 4: BREAKING NEWS DRAMATIC TREATMENT ========== */
-        .breaking-scan {
-            position: absolute;
-            inset: 0;
-            z-index: 3;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 0, 0, 0.03) 2px,
-                    rgba(0, 0, 0, 0.03) 4px);
-            pointer-events: none;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            from {
-                background-position: 0 0;
-            }
-
-            to {
-                background-position: 0 200px;
-            }
-        }
-
-        .breaking-glow {
-            position: absolute;
+        /* Bottom Navbar */
+        #bottomnav {
+            position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 40%;
-            background: linear-gradient(to top, rgba(232, 25, 44, 0.25) 0%, transparent 100%);
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        /* Large decorative quote mark */
-        .quote-decor {
-            font-family: 'Inter', Georgia, serif;
-            font-size: 120px;
-            font-weight: 900;
-            line-height: 0.7;
-            color: var(--detik-blue);
-            opacity: 0.18;
-            position: absolute;
-            top: 30%;
-            left: 10px;
-            z-index: 3;
-            pointer-events: none;
-            letter-spacing: -4px;
-        }
-
-        /* ========== UPGRADE 5: FLOATING PILL BOTTOM NAV ========== */
-        #bottomnav {
-            position: fixed;
-            bottom: calc(16px + env(safe-area-inset-bottom));
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 400px;
             z-index: 100;
-            background: rgba(10, 10, 15, 0.88);
-            backdrop-filter: blur(24px) saturate(1.8);
-            -webkit-backdrop-filter: blur(24px) saturate(1.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
+            background: #000;
+            border-top: 1px solid #222;
             display: flex;
             justify-content: space-around;
-            padding: 10px 8px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            padding: 10px 0;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom));
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
-            color: rgba(255, 255, 255, 0.35);
+            gap: 4px;
+            color: #777;
             text-decoration: none;
-            font-size: 9px;
-            font-weight: 600;
+            font-size: 10px;
             cursor: pointer;
-            transition: color 0.2s, transform 0.2s;
-            padding: 4px 10px;
-            border-radius: 20px;
-            letter-spacing: 0.2px;
-            min-width: 48px;
-        }
-
-        .nav-item:active {
-            transform: scale(0.9);
         }
 
         .nav-item.active {
             color: #fff;
-            background: rgba(255, 255, 255, 0.08);
         }
 
         .nav-item i {
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .nav-item.active i {
             color: var(--detik-blue);
         }
 
-        /* card-info bottom handled per-card inline */
-
-        .right-actions {
-            bottom: 108px;
-        }
-
-        .video-progress {
-            bottom: 96px;
-        }
-
-        /* ========== UPGRADE 6: VERTICAL SCROLL INDICATOR ========== */
-        #scroll-indicator {
-            position: fixed;
-            right: 6px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 90;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .scroll-dot {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25);
-            transition: all 0.3s;
-        }
-
-        .scroll-dot.active {
+        .minimalist-btn {
             background: var(--detik-blue);
-            height: 16px;
-            border-radius: 3px;
-            box-shadow: 0 0 6px var(--detik-blue);
-        }
-
-        /* ========== UPGRADE 7: COLORED BADGES per content type ========== */
-        .badge-breaking {
-            background: linear-gradient(135deg, #E8192C, #FF4C30) !important;
-        }
-
-        .badge-video {
-            background: linear-gradient(135deg, #0066CC, #0099FF) !important;
-        }
-
-        .badge-story {
-            background: linear-gradient(135deg, #7B3FF1, #A855F7) !important;
-        }
-
-        .badge-quote {
-            background: linear-gradient(135deg, #FF6D00, #FFB300) !important;
-        }
-
-        .badge-explainer {
-            background: linear-gradient(135deg, #00897B, #00C853) !important;
-        }
-
-        .badge-live {
-            background: linear-gradient(135deg, #E8192C, #C62828) !important;
-        }
-
-        .badge-polling {
-            background: linear-gradient(135deg, #0066CC, #7B3FF1) !important;
-        }
-
-        .badge-enjoyment {
-            background: linear-gradient(135deg, #00897B, #00C853) !important;
-        }
-
-        /* Gradient glow behind top badge area */
-        .badge-glow::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: inherit;
-            border-radius: inherit;
-            filter: blur(12px);
-            opacity: 0.4;
-        }
-
-        /* ========== LOGO GRADIENT ========== */
-        .logo span {
-            background: linear-gradient(135deg, #0066CC, #7B3FF1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Remove old fixed bottom nav positioning override */
-        /* (handled above in #bottomnav) */
-        /* ========== HOW TO CARD ========== */
-        .badge-howto {
-            background: linear-gradient(135deg, #F59E0B, #EF4444) !important;
-        }
-
-        /* Step number large display */
-        .howto-step-num {
-            font-size: 100px;
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -6px;
-            color: rgba(255, 255, 255, 0.08);
-            position: absolute;
-            right: -8px;
-            top: 68px;
-            pointer-events: none;
-            z-index: 3;
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* Step pill number (small visible one) */
-        .howto-pill {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #F59E0B, #EF4444);
-            font-size: 14px;
-            font-weight: 900;
-            color: #fff;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.45);
-        }
-
-        /* Step row layout (icon pill + title) */
-        .howto-step-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 4px;
-        }
-
-        /* Checklist items */
-        .howto-checklist {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .howto-checklist li {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .howto-checklist li .check-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(245, 158, 11, 0.25);
-            border: 1px solid rgba(245, 158, 11, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #F59E0B;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-
-        /* Gradient BG overlay for HOW TO slides */
-        .howto-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
-
-        /* Per-step gradient colors */
-        .howto-bg-0 {
-            background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 60%, #0f172a 100%);
-        }
-
-        .howto-bg-1 {
-            background: linear-gradient(160deg, #0f172a 0%, #1a1040 60%, #0f172a 100%);
-        }
-
-        .howto-bg-2 {
-            background: linear-gradient(160deg, #0f1a0f 0%, #0a3622 60%, #0f172a 100%);
-        }
-
-        .howto-bg-3 {
-            background: linear-gradient(160deg, #1a0a00 0%, #3d1a00 60%, #0f172a 100%);
-        }
-
-        .howto-bg-4 {
-            background: linear-gradient(160deg, #0f0a1a 0%, #2d0f5e 60%, #0f172a 100%);
-        }
-
-        .howto-bg-5 {
-            background: linear-gradient(160deg, #0a1f0a 0%, #003322 60%, #0f172a 100%);
-        }
-
-        /* Noise texture overlay */
-        .howto-noise {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-
-        /* Info bar at top of overview slide */
-        .howto-overview-total {
-            font-size: 11px;
-            font-weight: 700;
-            color: #F59E0B;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        /* CTA button orange */
-        .howto-cta-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #F59E0B, #EF4444);
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 22px;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 12px;
-            letter-spacing: 0.2px;
-            text-decoration: none;
-            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -1084,7 +635,7 @@
     <!-- TOP BAR -->
     <div id="topbar">
         <div class="logo">detik<span>Kilat</span></div>
-        <div id="card-counter">1 / 12</div>
+
     </div>
 
     <!-- FEED -->
@@ -1093,8 +644,6 @@
         <!-- CARD 1: Breaking News -->
         <div class="card" data-id="1">
             <img src="Kondisi Terkini (breaking news).jpeg" class="bg-image" alt="Breaking">
-            <div class="breaking-scan"></div>
-            <div class="breaking-glow"></div>
 
             <div class="bg-overlay"
                 style="background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 100%); z-index: 2;">
@@ -1102,7 +651,7 @@
 
             <div class="card-info" style="top: 80px; bottom: auto;">
                 <div class="badges-wrap">
-                    <div class="content-badge break-badge badge-breaking">BREAKING</div>
+                    <div class="content-badge break-badge">BREAKING</div>
                     <div class="tab-badge"><i class="fa-solid fa-fire"></i> Hangat</div>
                 </div>
                 <h2 class="card-title" style="font-size: 28px;">Kondisi Terkini Pasca Serangan, Suasana Mencekam</h2>
@@ -1145,22 +694,15 @@
             <div class="bg-overlay"></div>
             <button class="mute-btn" onclick="toggleMute(this, event)"><i class="fa-solid fa-volume-xmark"></i></button>
             <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-            <div class="video-progress">
-                <div class="video-progress-bar"></div>
-            </div>
 
-            <div class="card-info" style="top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-video">VIDEO</div>
+                    <div class="content-badge">VIDEO</div>
                     <div class="tab-badge"><i class="fa-solid fa-thumbtack"></i> Relevan</div>
                 </div>
-                <h2 class="card-title" style="font-size: 26px;">Israel Serang Depot BBM IRAN</h2>
-            </div>
-            <div class="card-info" style="bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-video"></i> 20detik · 09 Mar 2026</div>
-                <p class="story-text">Rekaman udara menunjukkan momen depot BBM Iran dilanda ledakan hebat. Aksi ini
-                    memperparah ketegangan di kawasan.</p>
-                <a href="#" class="cta-link">Tonton selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                <h2 class="card-title">Israel Serang Depot BBM IRAN</h2>
+                <p class="story-text">Rekaman udara menunjukkan momen depot BBM dilanda ledakan hebat.</p>
             </div>
 
             <div class="right-actions">
@@ -1186,29 +728,27 @@
         <!-- CARD 3: Quote Highlights -->
         <div class="card" data-id="3">
             <img src="netanyahu.jpeg" class="bg-image" alt="Netanyahu">
-            <div class="quote-decor">&#8220;</div>
             <div class="bg-overlay"
                 style="background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 100%);">
             </div>
 
-            <div class="card-info" style="top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-quote">QUOTE HIGHLIGHTS</div>
+                    <div class="content-badge">QUOTE HIGHLIGHTS</div>
                     <div class="tab-badge"><i class="fa-solid fa-location-dot"></i> Dekat</div>
                 </div>
-                <div class="quote-text" style="font-size: 22px; margin-top: 8px;">
-                    "Kita terus maju dengan kekuatan penuh! Perang dimenangkan dengan inisiatif dan strategi."
-                </div>
-            </div>
-            <div class="card-info" style="bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element">
                     <i class="fa-solid fa-link"></i>
                     <a href="https://www.detik.com/jogja/berita/d-8391041/netanyahu-bersumpah-lanjutkan-perang-lawan-iran-klaim-demi-bebas-dari-tirani"
                         target="_blank">detikNews · 08 Mar 2026</a>
                 </div>
+                <div class="quote-text">
+                    "Kita terus maju dengan kekuatan penuh! Perang dimenangkan dengan inisiatif dan strategi, tetapi
+                    fondasi pertama kesuksesan adalah tekad."
+                </div>
                 <div class="quote-context">
-                    Netanyahu — Perdana Menteri Israel, bersumpah lanjutkan perang lawan Iran demi membebaskan kawasan
-                    dari tirani.
+                    Konteks: Netanyahu bersumpah lanjutkan perang lawan Iran, ia mengklaim operasi ini perlu untuk
+                    membebaskan kawasan dari tirani.
                 </div>
             </div>
 
@@ -1249,7 +789,7 @@
                     <div class="bg-overlay"></div>
                     <div class="card-info" style="bottom: 40px;">
                         <div class="badges-wrap">
-                            <div class="content-badge badge-explainer">EXPLAINER</div>
+                            <div class="content-badge">EXPLAINER</div>
                         </div>
                         <div class="trust-element">
                             <i class="fa-solid fa-user"></i> Rifkianto Nugroho - detikNews · 06 Mar 2026
@@ -1327,7 +867,7 @@
                     </div>
                     <div class="card-info" style="bottom: 40px; right: 16px;">
                         <div class="badges-wrap">
-                            <div class="content-badge badge-live">LIVE REPORT</div>
+                            <div class="content-badge">LIVE REPORT</div>
                             <div class="tab-badge"><i class="fa-solid fa-fire"></i> Hangat</div>
                         </div>
                         <h2 class="card-title" style="font-size: 24px; margin-top: 8px;">Sidang Paripurna DPR RI 2026
@@ -1376,7 +916,7 @@
                     </div>
                     <div class="card-info" style="bottom: 40px; right: 16px;">
                         <div class="badges-wrap">
-                            <div class="content-badge badge-live">LIVE UPDATE</div>
+                            <div class="content-badge" style="background:#e03a3e">LIVE UPDATE</div>
                             <div class="tab-badge"><i class="fa-solid fa-clock"></i> 10:45 WIB</div>
                         </div>
                         <div class="trust-element" style="pointer-events: auto;">
@@ -1401,7 +941,7 @@
                     </div>
                     <div class="card-info" style="bottom: 40px; right: 16px;">
                         <div class="badges-wrap">
-                            <div class="content-badge badge-live">LIVE UPDATE</div>
+                            <div class="content-badge" style="background:#e03a3e">LIVE UPDATE</div>
                             <div class="tab-badge"><i class="fa-solid fa-clock"></i> 10:15 WIB</div>
                         </div>
                         <div class="trust-element" style="pointer-events: auto;">
@@ -1425,7 +965,7 @@
                     </div>
                     <div class="card-info" style="bottom: 40px; right: 16px;">
                         <div class="badges-wrap">
-                            <div class="content-badge badge-live">LIVE UPDATE</div>
+                            <div class="content-badge" style="background:#e03a3e">LIVE UPDATE</div>
                             <div class="tab-badge"><i class="fa-solid fa-clock"></i> 09:30 WIB</div>
                         </div>
                         <div class="trust-element" style="pointer-events: auto;">
@@ -1467,17 +1007,18 @@
             <img src="UMP.jpeg" class="bg-image anim-pan" style="opacity: 0.7;">
             <div class="bg-overlay"></div>
 
-            <div class="card-info" style="top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-story">STORY</div>
+                    <div class="content-badge">STORY</div>
                     <div class="tab-badge"><i class="fa-solid fa-thumbtack"></i> Relevan</div>
                 </div>
-                <h2 class="card-title" style="font-size: 26px;">Gaji Tetap UMR, Tapi Gaya Hidup Sultan</h2>
-            </div>
-            <div class="card-info" style="bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-pen"></i> detikFinance · Kemarin</div>
-                <p class="story-text">FOMO mendorong Gen Z habiskan gaji UMR untuk konser & kopi kekinian — lalu puasa
-                    di akhir bulan.</p>
+                <h2 class="card-title">Gaji Tetap UMR, Tapi Gaya Hidup Sultan</h2>
+                <p class="story-text">Siapa yang sering merasa gajinya cuma numpang lewat tiap bulan? Fenomena ini makin
+                    sering dialami Generasi Z. Banyak yang gajinya UMR, tapi rela puasa di akhir bulan demi membeli kopi
+                    kekinian atau nonton konser. Bagaimana bisa?</p>
+                <p class="story-text">Gaya hidup yang didorong FOMO (Fear of Missing Out) membuat pengeluaran membengkak
+                    tanpa terasa. Cek faktanya di artikel selengkapnya.</p>
                 <a href="#" class="cta-link">Baca liputan khusus <i class="fa-solid fa-arrow-right"></i></a>
             </div>
 
@@ -1508,7 +1049,7 @@
 
             <div class="card-info" style="bottom: auto; top: 100px;">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-polling">POLLING</div>
+                    <div class="content-badge">POLLING</div>
                 </div>
                 <div class="trust-element"><i class="fa-solid fa-square-poll-vertical"></i> detikPolling</div>
                 <h2 class="card-title" style="margin-bottom: 12px;">Menurut kamu, apakah PSEL Burangkeng akan efektif
@@ -1581,18 +1122,16 @@
             <button class="mute-btn" onclick="toggleMute(this, event)"><i class="fa-solid fa-volume-xmark"></i></button>
             <div class="play-btn" style="z-index: 10;"><i class="fa-solid fa-play"></i></div>
 
-            <div class="card-info" style="z-index: 50; top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info" style="z-index: 50;">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-video">VIDEO <span
+                    <div class="content-badge">VIDEO <span
                             style="font-size:9px; opacity:0.8; margin-left:4px;">(9:16)</span></div>
                     <div class="tab-badge"><i class="fa-solid fa-location-dot"></i> Dekat</div>
                 </div>
-                <h2 class="card-title" style="font-size: 26px;">Banjir Ciledug Indah Tangerang</h2>
-            </div>
-            <div class="card-info" style="z-index: 50; bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-video"></i> 20detik · Baru saja</div>
-                <p class="story-text">Kondisi terkini pasca hujan deras. Ketinggian air mencapai lutut orang dewasa.</p>
-                <a href="#" class="cta-link">Lihat video <i class="fa-solid fa-arrow-right"></i></a>
+                <h2 class="card-title">Banjir Ciledug Indah Tangerang</h2>
+                <p class="story-text">Kondisi terkini perumahan Ciledug Indah pasca hujan deras. Ketinggian air mencapai
+                    lutut orang dewasa.</p>
             </div>
 
             <div class="right-actions" style="z-index: 50;">
@@ -1629,33 +1168,21 @@
             <button class="mute-btn" onclick="toggleMute(this, event)"><i class="fa-solid fa-volume-xmark"></i></button>
             <div class="play-btn" style="z-index: 10;"><i class="fa-solid fa-play"></i></div>
 
-            <div class="card-info" style="z-index: 50; top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info" style="z-index: 50;">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-video">VIDEO <span
+                    <div class="content-badge">VIDEO <span
                             style="font-size:9px; opacity:0.8; margin-left:4px;">(3:4)</span></div>
                 </div>
-                <h2 class="card-title" style="font-size: 24px;">Krisis Timteng Makin Mahal, Filipina Terapkan Kerja 4
-                    Hari</h2>
-            </div>
-            <div class="card-info" style="z-index: 50; bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-globe"></i> detikNews · 3 jam lalu</div>
-                <p class="story-text">Dampak ekonomi global mendorong kebijakan baru: penyesuaian jam kerja demi
-                    ketahanan energi.</p>
-                <a href="#" class="cta-link">Tonton selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                <h2 class="card-title">Krisis Timteng Makin Mahal, Filipina Terapkan Kerja 4 Hari</h2>
+                <p class="story-text">Dampak ekonomi global membuat sejumlah negara merumuskan kebijakan baru, termasuk
+                    penyesuaian jam kerja demi ketahanan energi.</p>
             </div>
 
             <div class="right-actions" style="z-index: 50;">
                 <button class="action-btn" onclick="toggleAction(this, 'liked')">
                     <div class="action-icon"><i class="fa-solid fa-heart"></i></div><span
                         class="action-text">5.6K</span>
-                </button>
-                <button class="action-btn">
-                    <div class="action-icon"><i class="fa-solid fa-comment-dots"></i></div><span
-                        class="action-text">340</span>
-                </button>
-                <button class="action-btn" onclick="toggleAction(this, 'bookmarked')">
-                    <div class="action-icon"><i class="fa-solid fa-bookmark"></i></div><span
-                        class="action-text">Save</span>
                 </button>
                 <button class="action-btn">
                     <div class="action-icon"><i class="fa-solid fa-share"></i></div><span
@@ -1678,34 +1205,19 @@
             <button class="mute-btn" onclick="toggleMute(this, event)"><i class="fa-solid fa-volume-xmark"></i></button>
             <div class="play-btn" style="z-index: 10;"><i class="fa-solid fa-play"></i></div>
 
-            <div class="card-info" style="z-index: 50; top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info" style="z-index: 50;">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-video">VIDEO <span
+                    <div class="content-badge">VIDEO <span
                             style="font-size:9px; opacity:0.8; margin-left:4px;">(16:9)</span></div>
                 </div>
-                <h2 class="card-title" style="font-size: 26px;">Momentum Terkini</h2>
-            </div>
-            <div class="card-info" style="z-index: 50; bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-video"></i> 20detik · 1 jam lalu</div>
+                <h2 class="card-title">Momentum Terkini</h2>
                 <p class="story-text">Cuplikan dari kejadian mendadak siang ini yang menyita perhatian publik.</p>
-                <a href="#" class="cta-link">Tonton sekarang <i class="fa-solid fa-arrow-right"></i></a>
             </div>
 
             <div class="right-actions" style="z-index: 50;">
                 <button class="action-btn" onclick="toggleAction(this, 'liked')">
                     <div class="action-icon"><i class="fa-solid fa-heart"></i></div><span class="action-text">2K</span>
-                </button>
-                <button class="action-btn">
-                    <div class="action-icon"><i class="fa-solid fa-comment-dots"></i></div><span
-                        class="action-text">88</span>
-                </button>
-                <button class="action-btn" onclick="toggleAction(this, 'bookmarked')">
-                    <div class="action-icon"><i class="fa-solid fa-bookmark"></i></div><span
-                        class="action-text">Save</span>
-                </button>
-                <button class="action-btn">
-                    <div class="action-icon"><i class="fa-solid fa-share"></i></div><span
-                        class="action-text">Share</span>
                 </button>
             </div>
         </div>
@@ -1720,32 +1232,26 @@
                 <img src="wali-band-deretan lagu bukber.jpeg" class="media-item format-3-4" alt="Wali Band">
             </div>
 
-            <div class="card-info" style="z-index: 50; top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info" style="z-index: 50;">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-enjoyment">ENJOYMENT <span
+                    <div class="content-badge" style="background:#555;">ENJOYMENT <span
                             style="font-size:9px; opacity:0.8; margin-left:4px;">(3:4)</span></div>
                 </div>
-                <h2 class="card-title" style="font-size: 24px;">Deretan Lagu Wali yang Cocok Buat Bukber</h2>
-            </div>
-            <div class="card-info" style="z-index: 50; bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-music"></i> detikHot · 5 jam lalu</div>
-                <p class="story-text">Dari Romantika Badar & Uhud (Wali), Cakra Khan, hingga Opick — ini daftar lagu
-                    religi syahdu buat konten bukber Ramadan.</p>
-                <a href="#" class="cta-link">Baca daftar lengkap <i class="fa-solid fa-arrow-right"></i></a>
+                <h2 class="card-title">Deretan Lagu Wali yang Cocok Buat Bukber</h2>
+                <p class="story-text">Siapa yang setuju kalau lagu-lagu Wali bikin nostalgia zaman buka bersama bareng
+                    teman sekolah?</p>
+                <p class="story-text">Artikel ini merekomendasikan beberapa lagu religi yang cocok dijadikan backsound
+                    konten bukber selama Ramadan. Beberapa di antaranya adalah Ketika Tangan dan Kaki Berkata versi
+                    Cakra Khan, Shalawat Badar dari Hasna, Romantika Badar dan Uhud dari Wali, Pulang PadaMu dari Ungu,
+                    dan Syukur Alhamdulillah dari Opick. Lagu-lagu ini menghadirkan nuansa religi yang syahdu dan cocok
+                    untuk konten Ramadan.</p>
             </div>
 
             <div class="right-actions" style="z-index: 50;">
                 <button class="action-btn" onclick="toggleAction(this, 'liked')">
                     <div class="action-icon"><i class="fa-solid fa-heart"></i></div><span
                         class="action-text">4.1K</span>
-                </button>
-                <button class="action-btn">
-                    <div class="action-icon"><i class="fa-solid fa-comment-dots"></i></div><span
-                        class="action-text">210</span>
-                </button>
-                <button class="action-btn" onclick="toggleAction(this, 'bookmarked')">
-                    <div class="action-icon"><i class="fa-solid fa-bookmark"></i></div><span
-                        class="action-text">Save</span>
                 </button>
                 <button class="action-btn">
                     <div class="action-icon"><i class="fa-solid fa-share"></i></div><span
@@ -1771,7 +1277,7 @@
                     <div class="bg-overlay"></div>
                     <div class="card-info" style="bottom: 40px;">
                         <div class="badges-wrap">
-                            <div class="content-badge badge-explainer">EXPLAINER</div>
+                            <div class="content-badge">EXPLAINER</div>
                         </div>
                         <div class="trust-element"><i class="fa-solid fa-landmark"></i> detikNews · 2 jam lalu</div>
                         <h2 class="card-title">Paripurna Pengesahan RUU Penyesuaian Pidana</h2>
@@ -1822,16 +1328,14 @@
                 style="opacity: 0.7;">
             <div class="bg-overlay"></div>
 
-            <div class="card-info" style="top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-enjoyment">ENJOYMENT</div>
+                    <div class="content-badge" style="background: #2a2a2a;">ENJOYMENT</div>
                 </div>
-                <h2 class="card-title" style="font-size: 26px;">Kucing Menggemaskan Selamatkan Anjing yang Terjebak</h2>
-            </div>
-            <div class="card-info" style="bottom: 108px; top: auto; right: 72px;">
-                <p class="story-text">Momen langka: seekor kucing oren memandu anjing kecil yang tersesat di saluran air
-                    — langsung viral!</p>
-                <a href="#" class="cta-link">Lihat lebih lanjut <i class="fa-solid fa-arrow-right"></i></a>
+                <h2 class="card-title">Kucing Menggemaskan Beraksi Selamatkan Anjing yang Terjebak</h2>
+                <p class="story-text">Momen langka tertangkap kamera di mana seekor kucing oren berusaha memandu anjing
+                    kecil yang tersesat di saluran air. Kejadian lucu nan mengharukan ini langsung viral di media
+                    sosial.</p>
             </div>
 
             <div class="right-actions">
@@ -1861,16 +1365,15 @@
             <img src="Kucing.jpeg" class="bg-image format-9-16" style="opacity: 0.8;">
             <div class="bg-overlay"></div>
 
-            <div class="card-info" style="top: 72px; bottom: auto; right: 72px;">
+            <div class="card-info">
                 <div class="badges-wrap">
-                    <div class="content-badge badge-story">STORY</div>
+                    <div class="content-badge">STORY</div>
                 </div>
-                <h2 class="card-title" style="font-size: 26px;">Kenali Tanda Anabul Kesayanganmu Sedang Sakit</h2>
-            </div>
-            <div class="card-info" style="bottom: 108px; top: auto; right: 72px;">
                 <div class="trust-element"><i class="fa-solid fa-pen"></i> detikHealth · 1 hari lalu</div>
-                <p class="story-text">Kucing pandai menyembunyikan rasa sakit. Waspadai kehilangan nafsu makan dan
-                    perilaku sering bersembunyi.</p>
+                <h2 class="card-title">Kenali Tanda Anabul Kesayanganmu Sedang Sakit</h2>
+                <p class="story-text">Kucing memang pintar menyembunyikan rasa sakit. Namun sebagai pemilik, kita harus
+                    waspada jika mereka mulai kehilangan nafsu makan atau sering bersembunyi.</p>
+                <p class="story-text">Deteksi dini sangat penting sebelum kondisinya memburuk. Cek gejala lainnya!</p>
                 <a href="#" class="cta-link">Baca panduan lengkapnya <i class="fa-solid fa-arrow-right"></i></a>
             </div>
 
@@ -1894,265 +1397,7 @@
             </div>
         </div>
 
-        <!-- CARD 15: HOW TO — Cara Bayar Pajak Online -->
-        <div class="card" data-id="15">
-
-            <!-- Carousel indicators -->
-            <div class="carousel-indicators" id="car-ind-howto">
-                <div class="c-ind active"></div>
-                <div class="c-ind"></div>
-                <div class="c-ind"></div>
-                <div class="c-ind"></div>
-                <div class="c-ind"></div>
-                <div class="c-ind"></div>
-            </div>
-
-            <div class="carousel-container" onscroll="updateCarousel(this, 'car-ind-howto')">
-
-                <!-- ====== SLIDE 0: Overview ====== -->
-                <div class="carousel-slide">
-                    <div class="howto-bg howto-bg-0"></div>
-                    <div class="howto-noise"></div>
-                    <div class="bg-overlay"
-                        style="background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%);">
-                    </div>
-
-                    <!-- TOP: Badge + Title -->
-                    <div class="card-info" style="top: 72px; bottom: auto; right: 72px; z-index: 10;">
-                        <div class="badges-wrap">
-                            <div class="content-badge badge-howto">HOW TO</div>
-                            <div class="tab-badge"><i class="fa-solid fa-thumbtack"></i> Relevan</div>
-                        </div>
-                        <h2 class="card-title" style="font-size: 28px; margin-top: 4px;">Bayar Pajak Online
-                            <br>dalam 5 Langkah Mudah
-                        </h2>
-                    </div>
-
-                    <!-- BOTTOM: Meta + Swipe hint -->
-                    <div class="card-info" style="bottom: 108px; top: auto; right: 72px; z-index: 10;">
-                        <div class="trust-element"><i class="fa-solid fa-user-pen"></i> detikFinance · 11 Mar 2026</div>
-                        <p class="story-text">Lapor SPT Tahunan kini bisa dilakukan dari HP, tanpa perlu ke kantor
-                            pajak. Ikuti 5 langkah ini dan selesaikan kurang dari 15 menit.</p>
-                        <div
-                            style="display:flex; align-items:center; gap: 8px; margin-top: 8px; font-size: 12px; color: #F59E0B; font-weight: 700;">
-                            <i class="fa-solid fa-hand-point-right" style="font-size: 14px;"></i> Swipe untuk mulai
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ====== SLIDE 1: Step 1 ====== -->
-                <div class="carousel-slide">
-                    <div class="howto-bg howto-bg-1"></div>
-                    <div class="howto-noise"></div>
-                    <div class="howto-step-num">1</div>
-                    <div class="bg-overlay"
-                        style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%);">
-                    </div>
-
-                    <!-- TOP -->
-                    <div class="card-info" style="top: 72px; bottom: auto; right: 72px; z-index: 10;">
-                        <div class="badges-wrap">
-                            <div class="howto-pill">1</div>
-                            <div class="content-badge badge-howto" style="font-size: 9px;">LANGKAH 1 / 5</div>
-                        </div>
-                        <h2 class="card-title" style="font-size: 24px; margin-top: 6px;">Siapkan Dokumen yang Diperlukan
-                        </h2>
-                    </div>
-
-                    <!-- BOTTOM -->
-                    <div class="card-info" style="bottom: 108px; top: auto; right: 72px; z-index: 10;">
-                        <p class="story-text"
-                            style="color: rgba(255,255,255,0.7); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">
-                            Pastikan kamu punya:</p>
-                        <ul class="howto-checklist">
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> NPWP (Nomor Pokok
-                                Wajib Pajak)</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> EFIN (Electronic
-                                Filing Identification Number)</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Bukti potong dari
-                                pemberi kerja (formulir 1721-A1)</li>
-                        </ul>
-                        <div style="font-size:11px; color: rgba(255,255,255,0.4); margin-top: 10px;">💡 Belum punya
-                            EFIN? Minta ke KPP terdekat atau online di efin.pajak.go.id</div>
-                    </div>
-                </div>
-
-                <!-- ====== SLIDE 2: Step 2 ====== -->
-                <div class="carousel-slide">
-                    <div class="howto-bg howto-bg-2"></div>
-                    <div class="howto-noise"></div>
-                    <div class="howto-step-num">2</div>
-                    <div class="bg-overlay"
-                        style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%);">
-                    </div>
-
-                    <!-- TOP -->
-                    <div class="card-info" style="top: 72px; bottom: auto; right: 72px; z-index: 10;">
-                        <div class="badges-wrap">
-                            <div class="howto-pill">2</div>
-                            <div class="content-badge badge-howto" style="font-size: 9px;">LANGKAH 2 / 5</div>
-                        </div>
-                        <h2 class="card-title" style="font-size: 24px; margin-top: 6px;">Login ke DJP Online</h2>
-                    </div>
-
-                    <!-- BOTTOM -->
-                    <div class="card-info" style="bottom: 108px; top: auto; right: 72px; z-index: 10;">
-                        <p class="story-text">Buka <strong style="color: #F59E0B;">djponline.pajak.go.id</strong> di
-                            browser atau aplikasi DJP Online di HP kamu.</p>
-                        <ul class="howto-checklist" style="margin-top: 10px;">
-                            <li><span class="check-icon"><i class="fa-solid fa-1"></i></span> Masukkan NPWP dan password
-                                akun</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-2"></i></span> Isi kode keamanan
-                                (captcha)</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-3"></i></span> Klik tombol <em>Login</em>
-                            </li>
-                        </ul>
-                        <div style="font-size:11px; color: rgba(255,255,255,0.4); margin-top: 10px;">💡 Belum punya
-                            akun? Daftar di halaman yang sama dengan EFIN kamu</div>
-                    </div>
-                </div>
-
-                <!-- ====== SLIDE 3: Step 3 ====== -->
-                <div class="carousel-slide">
-                    <div class="howto-bg howto-bg-3"></div>
-                    <div class="howto-noise"></div>
-                    <div class="howto-step-num">3</div>
-                    <div class="bg-overlay"
-                        style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%);">
-                    </div>
-
-                    <!-- TOP -->
-                    <div class="card-info" style="top: 72px; bottom: auto; right: 72px; z-index: 10;">
-                        <div class="badges-wrap">
-                            <div class="howto-pill">3</div>
-                            <div class="content-badge badge-howto" style="font-size: 9px;">LANGKAH 3 / 5</div>
-                        </div>
-                        <h2 class="card-title" style="font-size: 24px; margin-top: 6px;">Pilih Menu e-Filing</h2>
-                    </div>
-
-                    <!-- BOTTOM -->
-                    <div class="card-info" style="bottom: 108px; top: auto; right: 72px; z-index: 10;">
-                        <p class="story-text">Setelah login, pilih menu <strong style="color: #F59E0B;">Lapor &gt;
-                                e-Filing</strong> untuk mulai mengisi SPT Tahunan secara elektronik.</p>
-                        <ul class="howto-checklist" style="margin-top: 10px;">
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Klik <em>Buat SPT</em>
-                            </li>
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Pilih tahun pajak yang
-                                akan dilaporkan</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Pilih jenis formulir:
-                                1770 S atau 1770 SS (untuk karyawan)</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- ====== SLIDE 4: Step 4 ====== -->
-                <div class="carousel-slide">
-                    <div class="howto-bg howto-bg-4"></div>
-                    <div class="howto-noise"></div>
-                    <div class="howto-step-num">4</div>
-                    <div class="bg-overlay"
-                        style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%);">
-                    </div>
-
-                    <!-- TOP -->
-                    <div class="card-info" style="top: 72px; bottom: auto; right: 72px; z-index: 10;">
-                        <div class="badges-wrap">
-                            <div class="howto-pill">4</div>
-                            <div class="content-badge badge-howto" style="font-size: 9px;">LANGKAH 4 / 5</div>
-                        </div>
-                        <h2 class="card-title" style="font-size: 24px; margin-top: 6px;">Isi Data SPT dengan Lengkap
-                        </h2>
-                    </div>
-
-                    <!-- BOTTOM -->
-                    <div class="card-info" style="bottom: 108px; top: auto; right: 72px; z-index: 10;">
-                        <p class="story-text">Isi data penghasilan, potongan pajak, dan harta sesuai dokumen yang kamu
-                            siapkan di Langkah 1.</p>
-                        <ul class="howto-checklist" style="margin-top: 10px;">
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Masukkan total
-                                penghasilan bruto setahun</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Input jumlah PPh yang
-                                dipotong (dari formulir 1721-A1)</li>
-                            <li><span class="check-icon"><i class="fa-solid fa-check"></i></span> Daftarkan aset &
-                                kewajiban (harta & utang)</li>
-                        </ul>
-                        <div style="font-size:11px; color: rgba(255,255,255,0.4); margin-top: 10px;">⚠️ Periksa kembali
-                            semua angka sebelum lanjut ke langkah berikutnya</div>
-                    </div>
-                </div>
-
-                <!-- ====== SLIDE 5: Step 5 + Done ====== -->
-                <div class="carousel-slide">
-                    <div class="howto-bg howto-bg-5"></div>
-                    <div class="howto-noise"></div>
-                    <div class="howto-step-num">5</div>
-                    <div class="bg-overlay"
-                        style="background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0) 100%);">
-                    </div>
-
-                    <!-- TOP -->
-                    <div class="card-info" style="top: 72px; bottom: auto; right: 72px; z-index: 10;">
-                        <div class="badges-wrap">
-                            <div class="howto-pill">5</div>
-                            <div class="content-badge badge-howto" style="font-size: 9px;">LANGKAH TERAKHIR</div>
-                        </div>
-                        <h2 class="card-title" style="font-size: 24px; margin-top: 6px;">Kirim SPT &amp; Simpan Tanda
-                            Bukti</h2>
-                    </div>
-
-                    <!-- BOTTOM -->
-                    <div class="card-info" style="bottom: 108px; top: auto; right: 72px; z-index: 10;">
-                        <p class="story-text">Setelah semua terisi, klik <strong style="color: #00C853;">Kirim
-                                SPT</strong>. Sistem akan mengirim kode verifikasi ke emailmu.</p>
-                        <ul class="howto-checklist" style="margin-top: 8px;">
-                            <li><span class="check-icon"
-                                    style="background: rgba(0,200,83,0.2); border-color: rgba(0,200,83,0.5); color: #00C853;"><i
-                                        class="fa-solid fa-check"></i></span> Masukkan kode verifikasi dari email</li>
-                            <li><span class="check-icon"
-                                    style="background: rgba(0,200,83,0.2); border-color: rgba(0,200,83,0.5); color: #00C853;"><i
-                                        class="fa-solid fa-check"></i></span> Klik <em>Kirim SPT</em> untuk konfirmasi
-                                final</li>
-                            <li><span class="check-icon"
-                                    style="background: rgba(0,200,83,0.2); border-color: rgba(0,200,83,0.5); color: #00C853;"><i
-                                        class="fa-solid fa-check"></i></span> Unduh & simpan Bukti Penerimaan Elektronik
-                                (BPE)</li>
-                        </ul>
-                        <a href="https://djponline.pajak.go.id" target="_blank" class="howto-cta-btn">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka DJP Online
-                        </a>
-                    </div>
-                </div>
-
-            </div><!-- end carousel-container -->
-
-            <div class="right-actions">
-                <button class="action-btn" onclick="toggleAction(this, 'liked')">
-                    <div class="action-icon"><i class="fa-solid fa-heart"></i></div><span
-                        class="action-text">6.7K</span>
-                </button>
-                <button class="action-btn">
-                    <div class="action-icon"><i class="fa-solid fa-comment-dots"></i></div><span
-                        class="action-text">312</span>
-                </button>
-                <button class="action-btn" onclick="toggleAction(this, 'bookmarked')">
-                    <div class="action-icon"><i class="fa-solid fa-bookmark"></i></div><span
-                        class="action-text">Save</span>
-                </button>
-                <button class="action-btn">
-                    <div class="action-icon"><i class="fa-solid fa-share"></i></div><span
-                        class="action-text">Share</span>
-                </button>
-            </div>
-
-        </div><!-- end CARD 15 -->
-
     </div>
-
-    <!-- SCROLL INDICATOR -->
-    <div id="scroll-indicator">
-        <!-- dots injected by JS -->
-    </div>
-
     <!-- BOTTOM NAV -->
     <nav id="bottomnav">
         <div class="nav-item">
@@ -2178,23 +1423,26 @@
     </nav>
 
     <script>
-        // ===== ACTION BUTTONS =====
+        // Handle Action Buttons Layout (Like/Bookmark interaction)
         function toggleAction(btn, className) {
             btn.classList.toggle(className);
-            const icon = btn.querySelector('.action-icon');
-            icon.style.transform = 'scale(1.3)';
-            setTimeout(() => icon.style.transform = '', 200);
         }
 
-        // ===== POLLING =====
+        // Handle Polling
         let hasVoted = false;
         function votePoll(el, optId, pctValue) {
             if (hasVoted) return;
             hasVoted = true;
+
+            // Mark all options as voted
             const opts = el.parentElement.querySelectorAll('.poll-opt');
             opts.forEach(o => o.classList.add('voted'));
-            el.style.background = 'rgba(0,102,204,0.25)';
-            el.style.borderColor = 'rgba(0,102,204,0.7)';
+
+            // Highlight selected
+            el.style.backgroundColor = "rgba(0, 80, 158, 0.2)";
+            el.style.borderColor = "var(--detik-blue)";
+
+            // Show bars and percentages
             for (let i = 1; i <= 3; i++) {
                 const bar = document.getElementById('p' + i + '-bar');
                 const pct = document.getElementById('p' + i + '-pct');
@@ -2203,181 +1451,89 @@
             }
         }
 
-        // ===== CARD COUNTER =====
+        // Handle Play/Pause on Video Scroll
         const feed = document.getElementById('feed');
         const cards = document.querySelectorAll('.card');
-        const counter = document.getElementById('card-counter');
-        const totalCards = cards.length;
 
-        function updateCounter() {
-            const scrollTop = feed.scrollTop;
-            const cardH = feed.clientHeight;
-            const idx = Math.round(scrollTop / cardH);
-            if (counter) counter.textContent = `${idx + 1} / ${totalCards}`;
-        }
-
-        // ===== VIDEO AUTOPLAY via IntersectionObserver =====
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const card = entry.target;
-                // Only handle cards inside the feed
+        feed.addEventListener('scroll', () => {
+            cards.forEach(card => {
                 const video = card.querySelector('video');
-                const playBtn = card.querySelector('.play-btn');
-                if (!video) return;
-                if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
-                    video.play().catch(() => { });
-                    if (playBtn) playBtn.classList.add('hidden');
-                    // Animate card-info
-                    const info = card.querySelectorAll('.card-info');
-                    info.forEach(el => {
-                        el.classList.remove('card-info-animate');
-                        void el.offsetWidth; // reflow
-                        el.classList.add('card-info-animate');
-                    });
-                } else {
-                    video.pause();
-                    video.currentTime = 0;
-                    if (playBtn) playBtn.classList.remove('hidden');
-                }
-            });
-        }, { threshold: 0.75 });
-
-        cards.forEach(card => videoObserver.observe(card));
-
-        // ===== CARD ENTRANCE ANIMATION on scroll =====
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
-                    const infos = entry.target.querySelectorAll('.card-info');
-                    infos.forEach(el => {
-                        el.classList.remove('card-info-animate');
-                        void el.offsetWidth;
-                        el.classList.add('card-info-animate');
-                    });
-                    updateCounter();
-                }
-            });
-        }, { threshold: 0.75 });
-        cards.forEach(card => cardObserver.observe(card));
-
-        feed.addEventListener('scroll', updateCounter, { passive: true });
-
-        // ===== MANUAL TAP TO PLAY/PAUSE =====
-        cards.forEach(card => {
-            const video = card.querySelector('video');
-            if (!video) return;
-            card.addEventListener('click', (e) => {
-                if (e.target.closest('.right-actions')) return;
-                if (e.target.closest('.mute-btn')) return;
-                if (e.target.closest('.poll-opt')) return;
-                if (e.target.closest('.play-btn')) return;
-                const playBtn = card.querySelector('.play-btn');
-                if (video.paused) {
-                    video.play();
-                    if (playBtn) playBtn.classList.add('hidden');
-                } else {
-                    video.pause();
-                    if (playBtn) playBtn.classList.remove('hidden');
+                if (video) {
+                    const rect = card.getBoundingClientRect();
+                    // If card is fully visible
+                    if (rect.top >= -10 && rect.top <= 10) {
+                        video.play().catch(e => console.log(e));
+                        card.querySelector('.play-btn').style.display = 'none';
+                    } else {
+                        video.pause();
+                        card.querySelector('.play-btn').style.display = 'block';
+                    }
                 }
             });
         });
 
-        // ===== MUTE TOGGLE =====
+        // Toggle Video Mute/Play manually
+        cards.forEach(card => {
+            const video = card.querySelector('video');
+            if (video) {
+                card.addEventListener('click', (e) => {
+                    // Ignore clicks on right actions
+                    if (e.target.closest('.right-actions')) return;
+
+                    if (video.paused) {
+                        video.play();
+                        card.querySelector('.play-btn').style.display = 'none';
+                    } else {
+                        video.pause();
+                        card.querySelector('.play-btn').style.display = 'block';
+                    }
+                });
+            }
+        });
+
+
+
         function toggleMute(btn, event) {
             if (event) event.stopPropagation();
             const card = btn.closest('.card');
             const video = card.querySelector('video');
-            if (!video) return;
-            video.muted = !video.muted;
-            const icon = btn.querySelector('i');
-            icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+            if (video) {
+                video.muted = !video.muted;
+                const icon = btn.querySelector('i');
+                if (video.muted) {
+                    icon.className = 'fa-solid fa-volume-xmark';
+                } else {
+                    icon.className = 'fa-solid fa-volume-high';
+                }
+            }
         }
 
         function togglePlay(video, event) {
             if (event) event.stopPropagation();
             const card = video.closest('.card');
             const playBtn = card.querySelector('.play-btn');
+
             if (video.paused) {
                 video.play();
-                if (playBtn) playBtn.classList.add('hidden');
+                if (playBtn) playBtn.style.display = 'none';
             } else {
                 video.pause();
-                if (playBtn) playBtn.classList.remove('hidden');
+                if (playBtn) playBtn.style.display = 'block';
             }
         }
 
-        // ===== CAROUSEL INDICATORS =====
+
+        // Handle Carousel Indicators
         function updateCarousel(container, indId) {
             const index = Math.round(container.scrollLeft / container.clientWidth);
             const indicators = document.getElementById(indId).children;
             for (let i = 0; i < indicators.length; i++) {
-                indicators[i].classList.toggle('active', i === index);
+                indicators[i].classList.remove('active');
+            }
+            if (indicators[index]) {
+                indicators[index].classList.add('active');
             }
         }
-
-
-        // ===== SCROLL INDICATOR DOTS =====
-        const scrollIndicator = document.getElementById('scroll-indicator');
-        function buildDots() {
-            scrollIndicator.innerHTML = '';
-            cards.forEach((_, i) => {
-                const dot = document.createElement('div');
-                dot.className = 'scroll-dot' + (i === 0 ? ' active' : '');
-                scrollIndicator.appendChild(dot);
-            });
-        }
-        function updateDots(idx) {
-            const dots = scrollIndicator.querySelectorAll('.scroll-dot');
-            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        }
-
-        // ===== VIDEO PROGRESS BARS =====
-        function startProgressBar(card) {
-            const video = card.querySelector('video');
-            const bar = card.querySelector('.video-progress-bar');
-            if (!video || !bar) return;
-            if (card._progInterval) clearInterval(card._progInterval);
-            card._progInterval = setInterval(() => {
-                if (video.duration) {
-                    bar.style.width = (video.currentTime / video.duration * 100) + '%';
-                }
-            }, 250);
-        }
-        function stopProgressBar(card) {
-            if (card._progInterval) clearInterval(card._progInterval);
-            const bar = card.querySelector('.video-progress-bar');
-            if (bar) bar.style.width = '0%';
-        }
-
-        // Patch videoObserver to also handle progress
-        const videoObserver2 = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const card = entry.target;
-                if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
-                    startProgressBar(card);
-                } else {
-                    stopProgressBar(card);
-                }
-            });
-        }, { threshold: 0.75 });
-        cards.forEach(card => videoObserver2.observe(card));
-
-        // ===== INTEGRATE DOTS IN COUNTER UPDATE =====
-        const _origUpdateCounter = updateCounter;
-        function updateCounter() {
-            const scrollTop = feed.scrollTop;
-            const cardH = feed.clientHeight;
-            const idx = Math.round(scrollTop / cardH);
-            if (counter) counter.textContent = `${idx + 1} / ${totalCards}`;
-            updateDots(idx);
-        }
-
-        // ===== INIT DOTS =====
-        buildDots();
-
-        // ===== INIT =====
-        buildDots();
-        updateCounter();
     </script>
 </body>
 
